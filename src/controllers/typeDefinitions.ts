@@ -51,6 +51,10 @@ export interface EmployeeType {
 // End response data object definitions
 
 // Page response data
+export interface MainMenuPageResponse extends PageResponse {
+	isElevatedUser: boolean;
+}
+
 export interface PageResponse {
 	errorMessage?: string;
 }
