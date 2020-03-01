@@ -1,4 +1,4 @@
- export enum EmployeeClassification {
+export enum EmployeeClassification {
 	NotDefined = -1,
 	Cashier = 101,
 	ShiftManager = 501,

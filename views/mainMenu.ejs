@@ -8,9 +8,72 @@
     
         <script type="text/javascript" src="/scripts/master.js" defer></script>
         <script type="text/javascript" src="/scripts/MainMenu.js" defer></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     </head>
 
-<title>test test test</title>
+    <body>
+        <div class="topbar">
+            <div class="logoutButton">
+                <i class="material-icons">flight_takeoff</i>
+                <a>logout</a>
+            </div>
+        </div>
 
+        <div class="header">
+            <h1 class="primary-message">Main Menu</h1>
+        </div>
+            
+        <div id="main" class="main">
+            <div id="error" <% if (!locals.errorMessage || (locals.errorMessage === "")) { %> class="hidden" <% } %>>
+                <h4 id="errorMessage" class="error-message">
+                    <% if (locals.errorMessage && (locals.errorMessage !== "")) { %>
+                        <%= locals.errorMessage %>
+                    <% } %>
+                </h4>
+            </div>
+    
+            <div class="menuButtons">
+                <div>
+                    <a class="button">Start Transaction</a>
+                </div>
+             
+                <div>
+                    <a href="/" class="button">View Products</a>
+                </div>
+                <% if (locals.isElevatedUser) { %>
+                    <div >
+                        <a class="button">Create Employee</a> <!--Should only be visible to elevated users, managers -->
+                    </div>
+                 
+                    <div>
+                        <a class="button">Sales Report</a> <!--Should only be visible to elevated users, managers -->
+                    </div>
+                 
+                    <div>
+                        <a class="button">Cashier Report</a> <!--Should only be visible to elevated users, managers -->
+                    </div>
+                <%}%>
+                
+            </div>
+        </div>
+    
+        <div class="hidden">
+            <input type="checkbox" id="isRefreshed" class="hidden">
+            <script type="text/javascript">
+                window.onunload = function() {
+                    const isRefreshedElement = document.getElementById("isRefreshed");
+                    if(!isRefreshedElement.checked) {
+                        isRefreshedElement.checked = true;
+                    } else {
+                        isRefreshedElement.checked = false;
+                        location.reload();
+                    }
+                }
+            </script>
+        </div>
+
+
+    </body>
 
 </html>

@@ -46,7 +46,8 @@ fileSystem.readdirSync(__dirname + "/routes").forEach(function (routeConfig: str
 		route.routes(app);
 	}
 });
-//Hello I am adding a comment
+
 Resources.loadStrings();
 
+// Hello I am adding a comment
 export default app;
