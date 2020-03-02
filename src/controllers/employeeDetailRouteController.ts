@@ -31,12 +31,13 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			}
 
 			// TODO: Serve up the page
-			return res.render(
-				ViewNameLookup.EmployeeDetail,
-				//<Employee>{
-					
-				//}
-			)
+			if (!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser) {
+				return res.render(
+					ViewNameLookup.EmployeeDetail,
+					//<Employee>{	
+					//}
+				)
+			}
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
 		});
