@@ -4,6 +4,7 @@ import { Resources, ResourceKey } from "../resourceLookup";
 import * as EmployeeHelper from "./commands/employees/helpers/employeeHelper";
 import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCommand";
 import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from "./typeDefinitions";
+import { ViewNameLookup } from "./lookups/routingLookup";
 
 interface CanCreateEmployee {
 	employeeExists: boolean;
@@ -30,6 +31,12 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			}
 
 			// TODO: Serve up the page
+			return res.render(
+				ViewNameLookup.EmployeeDetail,
+				//<Employee>{
+					
+				//}
+			)
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
 		});
