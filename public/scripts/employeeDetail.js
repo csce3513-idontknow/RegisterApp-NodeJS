@@ -20,9 +20,44 @@ function saveActionClick(event) {
 		classification: getEmployeeType()
 	};
 
-	console.log(JSON.stringify(saveEmployeeRequest));
+	//console.log(JSON.stringify(saveEmployeeRequest));
 
+	if(formValidation()) {
+		console.log("NO ERRORS");
+	}
 	//displayEmployeeSavedAlertModal();
+}
+
+function formValidation() {
+	if(getEmployeeFirstName() === "") {
+		document.getElementById("errorText").innerHTML = "First name field is empty!";
+		document.getElementById("firstName").focus();
+		document.getElementById("firstName").select();
+		return false;
+	} else if(getEmployeeLastName() === "") {
+		document.getElementById("errorText").innerHTML = "Last name field is empty!";
+		document.getElementById("lastName").focus();
+		document.getElementById("lastName").select();
+		return false;
+	} else if(getEmployeePassword() === "") {
+		document.getElementById("errorText").innerHTML = "Password field is empty!";
+		document.getElementById("password").focus();
+		document.getElementById("password").select();
+		return false;
+	} else if(getEmployeeVerifyPassword() === "") {
+		document.getElementById("errorText").innerHTML = "Verify password field is empty!";
+		document.getElementById("verifyPassword").focus();
+		document.getElementById("verifyPassword").select();
+		return false;
+	} else if (getEmployeePassword() != getEmployeeVerifyPassword()) {
+		document.getElementById("errorText").innerHTML = "Passwords do not match!";
+		document.getElementById("password").focus();
+		document.getElementById("password").select();
+		return false; 
+	} else {
+		document.getElementById("errorText").innerHTML = "";
+		return true;
+	}
 }
 
 function displayEmployeeSavedAlertModal() {

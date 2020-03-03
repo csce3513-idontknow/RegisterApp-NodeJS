@@ -10,14 +10,18 @@ function employeeDetailRoutes(server: express.Express) {
         (RouteLookup.EmployeeDetail + RouteLookup.EmployeeIdParameter),
         EmployeeDetailRouteController.startWithEmployee);
 
-    server.put(
-        (RouteLookup.API + RouteLookup.EmployeeDetail
-            + RouteLookup.EmployeeIdParameter),
-        EmployeeDetailRouteController.updateEmployee);
+    // server.put(
+    //     (RouteLookup.API + RouteLookup.EmployeeDetail
+    //         + RouteLookup.EmployeeIdParameter),
+    //     EmployeeDetailRouteController.createEmployee);
 
     server.post(
         (RouteLookup.API + RouteLookup.EmployeeDetail),
         EmployeeDetailRouteController.createEmployee);
+
+    // server.patch(
+    //     (RouteLookup.API + RouteLookup.EmployeeDetail + RouteLookup.EmployeeIdParameter),
+    //     EmployeeDetailRouteController.saveEmployee);
 
     // server.delete(
     //     (RouteLookup.API + RouteLookup.EmployeeDetail
