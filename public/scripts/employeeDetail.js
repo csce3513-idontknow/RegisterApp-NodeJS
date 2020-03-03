@@ -13,7 +13,13 @@ function saveActionClick(event) {
 	// TODO: Actually save the employee via an AJAX call
 	const saveActionElement = event.target;
 
+	
+	const registerId = getRegisterId();
+	const managerId = getManagerId();
+	const employeeId = getEmployeeId();
+	const saveActionUrl = ("/api/employeeDetail/" + (registerId));
 	const saveEmployeeRequest = {
+		id: registerId,
 		lastName: getEmployeeLastName(),
 		firstName: getEmployeeFirstName(),
 		password: getEmployeePassword(),
@@ -24,8 +30,13 @@ function saveActionClick(event) {
 
 	if(formValidation()) {
 		console.log("NO ERRORS");
+		ajaxPost(saveActionUrl, saveEmployeeRequest, (callbackResponse) => {
+			
+			if (isSuccessResponse(callbackResponse)) {
+				displayEmployeeSavedAlertModal();
+			}
+		});
 	}
-	//displayEmployeeSavedAlertModal();
 }
 
 function formValidation() {
@@ -119,4 +130,25 @@ function getEmployeeType() {
 }
 function getEmployeeTypeElement() {
 	return document.getElementById("type");
+}
+
+function getRegisterId() {
+	return getRegisterIdElement().value;
+}
+function getRegisterIdElement() {
+	return document.getElementById("employeeId");
+}
+
+function getManagerId() {
+	return getManagerIdElement().value;
+}
+function getManagerIdElement() {
+	return document.getElementById("managerId");
+}
+
+function getEmployeeId() {
+	return getEmployeeIdElement().value;
+}
+function getEmployeeIdElement() {
+	return document.getElementById("employeeEmployeeId");
 }
