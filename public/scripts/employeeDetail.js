@@ -2,17 +2,18 @@ let hideEmployeeSavedAlertTimer = undefined;
 
 document.addEventListener("DOMContentLoaded", () => {
 	// TODO: Things that need doing when the view is loaded
-	const employeeSaveElement = getEmployeeSaveElement();
+	const employeeSaveElement = document.getElementById('saveButton');
+	if(employeeSaveElement) {
+		employeeSaveElement.addEventListener("click", saveActionClick);
+	}
 
-	getEmployeeSaveElement().addEventListener("click", saveActionClick);
-
+	document.getElementById("signOutImage").addEventListener("click", logout)
 });
 
 // Save
 function saveActionClick(event) {
 	// TODO: Actually save the employee via an AJAX call
 	const saveActionElement = event.target;
-
 	
 	const registerId = getRegisterId();
 	const managerId = getManagerId();
@@ -31,7 +32,6 @@ function saveActionClick(event) {
 	if(formValidation()) {
 		console.log("NO ERRORS");
 		ajaxPost(saveActionUrl, saveEmployeeRequest, (callbackResponse) => {
-			
 			if (isSuccessResponse(callbackResponse)) {
 				displayEmployeeSavedAlertModal();
 			}
@@ -143,7 +143,7 @@ function getManagerId() {
 	return getManagerIdElement().value;
 }
 function getManagerIdElement() {
-	return document.getElementById("managerId");
+	return document.getElementById("employeeManagerId");
 }
 
 function getEmployeeId() {

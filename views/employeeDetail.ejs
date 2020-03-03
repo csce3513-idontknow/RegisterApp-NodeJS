@@ -34,21 +34,21 @@
 							<input id="employeeId" type="hidden" value="<% if (locals.employee && locals.employee.id) { %><%= locals.employee.id %><% } %>" />
 						</td>
 					</tr>
+
 					<tr class="hidden">
 						<td>Manager ID:</td>
 						<td>
 							<input id="employeeManagerId" type="hidden" value="<% if (locals.employee && locals.employee.managerId) { %><%= locals.employee.managerId %><% } %>" />
 						</td>
 					</tr>
+
 					<tr <% if (!locals.employee || !locals.employee.id || (locals.employee.id.trim() === "")) { %>class="hidden"<% } %>>
 						<td class="label">Employee ID:</td>
 						<td>
 							<input id="employeeEmployeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
 						</td>
 					</tr>
-					<!-- TODO: Other employee inputs -->
 
-					<!-- Start of Gustavo's Work-->
 					<tr>
 						<td>First name:</td>
 						<td>
@@ -87,20 +87,16 @@
 							</select>
 						</td>
 					</tr>
-
-					<tr>
-						<td>
-							<input id="save" type="button" value="Save">
-						</td>
-					</tr>
 					
-					<!-- End of Gustavo's Work-->
 				</tbody>
 			</table>
 			<p id="errorText" style="color:red;"></p>
 		</div>
 
 		<!-- TODO: An action element to initiate a save -->
+		<div id="employeeSave">
+			<input id="saveButton" type="button" value="Save">
+		</div>
 
 		<div id="employeeSavedAlertModal" class="modal animate-opacity-show">
 			<div class="modal-content">
@@ -116,6 +112,7 @@
 
 	<div class="footer <% if (locals.isInitialEmployee) { %>hidden<% } %>">
 		<img id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" class="footer" />
+		
 	</div>
 
 </body>
