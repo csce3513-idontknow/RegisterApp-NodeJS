@@ -8,7 +8,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const signIn = async (req: Request, res: Response): Promise<void> => {
-	//verify employee credentials
+	// verify employee credentials
 };
 
 export const clearActiveUser = async (req: Request, res: Response): Promise<void> => {

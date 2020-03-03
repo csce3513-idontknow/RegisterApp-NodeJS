@@ -17,12 +17,12 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 		"no-cache, max-age=0, must-revalidate, no-store");
 
 		// For testing mainmenu view
-		return res.render(
+		/* return res.render(
 			ViewNameLookup.MainMenu,
 			<MainMenuPageResponse>{
 				isElevatedUser: true,
 				errorMessage: Resources.getString(req.query[QueryParameterLookup.ErrorCode])
-			});
+			}); */
 
 	return ValidateActiveUser.execute((<Express.Session>req.session).id)
 		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): void => {
