@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { Resources } from "../resourceLookup";
 import * as Helper from "./helpers/routeControllerHelper";
 import { ViewNameLookup } from "./lookups/routingLookup";
-import * as EmployeeSignIn from "./commands/employees/employeeSignInCommand";
-import { PageResponse, CommandResponse, Employee, SignInPageResponse } from "./typeDefinitions";
+import * as EmployeeSignIn from "../controllers/commands/employees/employeeSignInCommand";
+import { PageResponse, CommandResponse, Employee } from "./typeDefinitions";
+import * as EmployeeExists from "../controllers/commands/employees/activeEmployeeExistsQuery";
 
 export const start = async (req: Request, res: Response): Promise<void> => {
 	// TODO: Use the credentials provided in the request body (req.body)
@@ -20,6 +21,8 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 
 export const signIn = async (req: Request, res: Response): Promise<void> => {
 	//verify employee credentials
+	console.log("HERE");
+
 };
 
 export const clearActiveUser = async (req: Request, res: Response): Promise<void> => {
