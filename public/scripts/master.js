@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", () => {
+	const signOutActionElement = getSignOutActionElement();
+	if (signOutActionElement != null) {
+		signOutActionElement.addEventListener("click", signOutActionClickHandler);
+	}
+});
+
 // AJAX
 function ajaxGet(resourceRelativeUri, callback) {
 	return ajax(resourceRelativeUri, "GET", null, callback);
@@ -158,6 +165,10 @@ function displayError(errorMessage) {
 // End display error message
 
 //Getters and setters
+function getSignOutActionElement() {
+	return document.getElementById("signOutImage");
+}
+
 function getErrorMessageContainerElement() {
 	return document.getElementById("error");
 }
@@ -167,8 +178,25 @@ function getErrorMessageDisplayElement() {
 }
 // End getters and setters
 
+
 function logout() {
 	ajaxDelete("/api/signOut");
 
 	location.replace("/");
 }
+
+//Sign out
+function signOutActionClickHandler() {
+	ajaxDelete("/api/signOut", (callbackResponse) => {
+		if ((callbackResponse.data != null)
+			&& (callbackResponse.data.redirectUrl != null)
+			&& (callbackResponse.data.redirectUrl !== "")) {
+	
+			window.location.replace(callbackResponse.data.redirectUrl);
+		} else {
+			window.location.replace("/");
+		}
+	});
+}
+//End sign out
+
