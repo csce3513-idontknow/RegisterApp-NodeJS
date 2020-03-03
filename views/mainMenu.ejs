@@ -14,7 +14,7 @@
 
     <body>
         <div class="topbar">
-            <div class="logoutButton">
+            <div id="logout" class="logoutButton">
                 <i class="material-icons">flight_takeoff</i>
                 <a>logout</a>
             </div>
@@ -35,23 +35,23 @@
     
             <div class="menuButtons">
                 <div>
-                    <a class="button">Start Transaction</a>
+                    <a id="startTransaction" class="button">Start Transaction</a>
                 </div>
              
                 <div>
-                    <a href="/" class="button">View Products</a>
+                    <a id="viewProducts" href="/" class="button">View Products</a>
                 </div>
                 <% if (locals.isElevatedUser) { %>
                     <div >
-                        <a class="button">Create Employee</a> <!--Should only be visible to elevated users, managers -->
+                        <a id="createEmployee" class="button">Create Employee</a> <!--Should only be visible to elevated users, managers -->
                     </div>
                  
                     <div>
-                        <a class="button">Sales Report</a> <!--Should only be visible to elevated users, managers -->
+                        <a id="salesReport" class="button">Sales Report</a> <!--Should only be visible to elevated users, managers -->
                     </div>
                  
                     <div>
-                        <a class="button">Cashier Report</a> <!--Should only be visible to elevated users, managers -->
+                        <a id="cashierReport" class="button">Cashier Report</a> <!--Should only be visible to elevated users, managers -->
                     </div>
                 <%}%>
                 

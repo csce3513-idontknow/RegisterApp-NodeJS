@@ -166,3 +166,9 @@ function getErrorMessageDisplayElement() {
 	return document.getElementById("errorMessage");
 }
 // End getters and setters
+
+function logout() {
+	ajaxDelete("/api/signOut");
+
+	location.replace("/");
+}
