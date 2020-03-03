@@ -8,7 +8,9 @@ function signInRoutes(server: express.Express) {
 		RouteLookup.SignIn,
 		SignInRouteController.start);
 
-	server.post(RouteLookup.SignIn, SignInRouteController.signIn);
+	server.post(
+		RouteLookup.SignIn, 
+		SignInRouteController.signIn);
 
 	server.delete(
 		(RouteLookup.API + RouteLookup.SignOut),
