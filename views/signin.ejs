@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 
 	<link rel="stylesheet" type="text/css" href="/styles/master.css">
-	<link rel="stylesheet" type="text/css" href="/styles/signIn.css">
+	<!-- <link rel="stylesheet" type="text/css" href="/styles/signIn.css"> -->
 
 	<script type="text/javascript" src="/scripts/master.js" defer></script>
 	<script type="text/javascript" src="/scripts/signIn.js" defer></script>
@@ -21,11 +21,11 @@
 			</h4>
 		</div>
 
-	<form action="/action_page.php" method="post" onsubmit="return FormValidation()">
+	<form action="/" method="post" onsubmit="return FormValidation()">
 		<label for="employee_id">Employee ID:</label><br>
-		<input type="number" id="employee_id" name="employee_id" value="000000000"><br>
+		<input type="number" id="employee_id" name="employee_id"><br>
 		<label for="password1">Password:</label><br>
-		<input type="password" id="password1" name="password1" value="clever password"><br><br>
+		<input type="password" id="password1" name="password1"><br><br>
 		<input id="saveButton" type = "submit" value="Sign In">
 	</form>
 </div>
