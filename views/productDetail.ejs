@@ -37,20 +37,32 @@
 					</tr>
 					<tr>
 						<td class="label">Lookup Code:</td>
+						<% if (locals.isElevatedUser) { %>
 						<td>
 							<input id="productLookupCode" type="text" value="<% if (locals.product && locals.product.lookupCode) { %><%= locals.product.lookupCode %><% } %>" class="update" />
 						</td>
+						<% } else{ %>
+						<td>
+							<input id="productLookupCode" type="text" value="<% if (locals.product && locals.product.lookupCode) { %><%= locals.product.lookupCode %><% } %>" disabled="diabled" />
+						</td>
+						<% } %>
 					</tr>
 					<tr>
 						<td class="label">Count:</td>
+						<% if (locals.isElevatedUser) { %>
 						<td>
 							<input id="productCount" type="number" value="<% if (locals.product && locals.product.count) { %><%= locals.product.count.toString() %><% } %>" class="update" />
 						</td>
+						<% } else{ %>
+						<td>
+							<input id="productCount" type="number" value="<% if (locals.product && locals.product.count) { %><%= locals.product.count.toString() %><% } %>" disabled="disabled" />
+						</td>
+						<% } %>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-
+		<% if (locals.isElevatedUser) { %>
 		<div>
 			<br />
 			<div id="deleteActionContainer" <% if (!locals.product || !locals.product.id || (locals.product.id.trim() === "")) { %>class="hidden"<% } %>>
@@ -71,6 +83,7 @@
 				</div>
 			</div>
 		</div>
+		<%}%>
 	</div>
 
 </body>
