@@ -1,9 +1,13 @@
-import { EmployeeModel } from "../models/employeeModel";
 import { Resources, ResourceKey } from "../../../resourceLookup";
-import * as EmployeeRepository from "../models/employeeModel";
+import * as Helper from "../helpers/helper";
+import * as EmployeeModel from "../models/employeeModel";
+import * as DatabaseConnection from "../models/databaseConnection";
+import { SignInRequest } from "../../typeDefinitions";
 import { CommandResponse, Employee } from "../../typeDefinitions";
+import Sequelize from "sequelize";
+import * as ActiveUserModel from "../models/activeUserModel";
 
-export const signInQuery = async (id: string, employeePassword: string): Promise<CommandResponse<Employee>> => {
+export const signInQuery = async (id: string, employeePassword: string): CommandResponse<void> => {
     return EmployeeRepository.queryById(id)
         .then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<Employee>> => {
 

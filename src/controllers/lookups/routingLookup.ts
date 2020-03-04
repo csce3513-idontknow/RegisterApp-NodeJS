@@ -18,6 +18,7 @@ export enum RouteLookup {
 	SignIn = "/",
 	SignOut = "/signOut",
 	MainMenu = "/mainMenu",
+	EmployeeDetail = "/employeeDetail",
 	ProductDetail = "/productDetail",
 	ProductListing = "/productListing",
 
