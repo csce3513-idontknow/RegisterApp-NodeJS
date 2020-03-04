@@ -10,7 +10,7 @@ import Sequelize from "sequelize";
 const validateSaveRequest = (saveEmployeeRequest: EmployeeSaveRequest): CommandResponse<Employee> => {
     let errorMsg: string = "";
 
-    //Validation
+    // Validation
     if (Helper.isBlankString(saveEmployeeRequest.firstName)) {
         errorMsg = Resources.getString(ResourceKey.EMPLOYEE_FIRST_NAME_INVALID);
     }
@@ -18,14 +18,14 @@ const validateSaveRequest = (saveEmployeeRequest: EmployeeSaveRequest): CommandR
         errorMsg = Resources.getString(ResourceKey.EMPLOYEE_LAST_NAME_INVALID);
     }
     else if (Helper.isBlankString(saveEmployeeRequest.password)) {
-        errorMsg = Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID)
+        errorMsg = Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID);
     }
-    //Sets first as manager
+    // Sets first as manager
     if (saveEmployeeRequest.isInitialEmployee) {
         saveEmployeeRequest.classification = EmployeeClassification.GeneralManager;
     }
 
-    return errorMsg === '' ? <CommandResponse<Employee>>{ status: 200 }
+    return errorMsg === "" ? <CommandResponse<Employee>>{ status: 200 }
         : <CommandResponse<Employee>>{
             status: 422,
             message: errorMsg

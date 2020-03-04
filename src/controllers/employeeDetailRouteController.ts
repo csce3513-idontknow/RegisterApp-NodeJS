@@ -7,7 +7,7 @@ import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from "./ty
 import { ViewNameLookup } from "./lookups/routingLookup";
 import * as EmployeeQuery from "./commands/employees/employeeQuery";
 import * as EmployeeCreate from "./commands/employees/employeeUpdateCommand";
-import * EmployeeUpdate from "./commands/employees/employeeUpdateCommand";
+import * as EmployeeUpdate from "./commands/employees/employeeUpdateCommand";
 
 interface CanCreateEmployee {
 	employeeExists: boolean;
@@ -34,12 +34,14 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			}
 
 			// TODO: Serve up the page
-			if (!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser) {
-				return res.render(
-					ViewNameLookup.EmployeeDetail,
-					//<Employee>{	
-					//}
-				)
+			else if (!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser) {
+				return res.render(ViewNameLookup.EmployeeDetail);
+			}
+			else if(!ValidateActiveUser.execute((<Express.Session>req.session).id)) {
+				return res.redirect(ViewNameLookup.SignIn);
+			}
+			else {
+				return res.redirect(ViewNameLookup.MainMenu)
 			}
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
@@ -59,7 +61,12 @@ export const startWithEmployee = async (req: Request, res: Response): Promise<vo
 					message: Resources.getString(ResourceKey.USER_NO_PERMISSIONS)
 				});
 			}
+			if (activeUserCommandResponse.status !== 200) {
+				res.redirect(ViewNameLookup.SignIn);
+			}
+			else {
 
+			}
 			// TODO: Query the employee details using the request route parameter
 			return Promise.resolve();
 		}).then((/* TODO: Some employee details */): void => {
@@ -112,9 +119,9 @@ const saveEmployee = async (
 };
 
 export const updateEmployee = async (req: Request, res: Response): Promise<void> => {
-	return; // TODO: invoke saveEmployee() with the appropriate save functionality
+	saveEmployee(req, res, EmployeeUpdate.execute);
 };
 
 export const createEmployee = async (req: Request, res: Response): Promise<void> => {
-	return; // TODO: invoke saveEmployee() with the appropriate save functionality
+	saveEmployee(req, res, EmployeeCreate.execute);
 };

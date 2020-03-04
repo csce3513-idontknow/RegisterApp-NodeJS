@@ -13,7 +13,7 @@ export const employeeLookup = async (employeeId?: string): Promise<CommandRespon
         });
     }
 
-    return EmployeeRepository.queryById(employeeId)
+    return EmployeeRepository.queryById(<string>employeeId)
         .then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<Employee>> => {
             if (!queriedEmployee) {
                 return Promise.reject(<CommandResponse<Employee>>{
@@ -27,4 +27,4 @@ export const employeeLookup = async (employeeId?: string): Promise<CommandRespon
                 employee: queriedEmployee
             });
         });
-}
+};
