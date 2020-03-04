@@ -4,7 +4,7 @@ import * as EmployeeRepository from "../models/employeeModel";
 import { CommandResponse, Employee } from "../../typeDefinitions";
 
 export const execute = async(): Promise<CommandResponse<boolean>> => {
-    return EmployeeRepository.queryActiveExists()
+	return EmployeeRepository.queryActiveExists()
 		.then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<boolean>> => {
 			if (!queriedEmployee) {
 				return Promise.reject(<CommandResponse<boolean>>{
@@ -13,7 +13,7 @@ export const execute = async(): Promise<CommandResponse<boolean>> => {
 				});
 			}
 
-			return Promise.resolve(<CommandResponse<boolean>{
+			return Promise.resolve(<CommandResponse<boolean>>{
 					status: 200,
 					data: true
                 });

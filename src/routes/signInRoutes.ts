@@ -9,7 +9,7 @@ function signInRoutes(server: express.Express) {
 		SignInRouteController.start);
 
 	server.post(
-		RouteLookup.SignIn, 
+		RouteLookup.SignIn,
 		SignInRouteController.signIn);
 
 	server.delete(

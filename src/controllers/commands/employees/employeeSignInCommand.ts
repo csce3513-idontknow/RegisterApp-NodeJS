@@ -14,19 +14,19 @@ export const signInQuery = async (signInRequest: SignInRequest, session: Express
     try {
         authorizationTransaction = await DatabaseConnection.createTransaction();
         const employeeObj = await EmployeeModel.queryByEmployeeId(parseInt(signInRequest.employeeId), authorizationTransaction);
-        if(employeeObj == null || employeeObj.password.toString() != signInRequest.password) {
+        if (employeeObj == null || employeeObj.password.toString() != signInRequest.password) {
             throw <CommandResponse<void>>{
                 status: 403,
                 message: Resources.getString(ResourceKey.USER_SIGN_IN_CREDENTIALS_INVALID)
             };
         }
         const activeUserObj = await ActiveUserModel.queryByEmployeeId(employeeObj.id, authorizationTransaction);
-        if(activeUserObj !== null) {
+        if (activeUserObj !== null) {
             activeUserObj.set('sessionKey', session.id);
             await activeUserObj.save();
         } else {
             await ActiveUserModel.ActiveUserModel.create({
-                name: '${employeeObj.firstName} ${employeeObj.lastName}',
+                name: "${employeeObj.firstName} ${employeeObj.lastName}",
                 createdOn: new Date(),
                 employeeId: employeeObj.id,
                 sessionKey: session.id,
@@ -35,8 +35,8 @@ export const signInQuery = async (signInRequest: SignInRequest, session: Express
         }
         await authorizationTransaction.commit();
         return <CommandResponse<void>>{ status: 204 };
-    } catch(e) {
-        if(authorizationTransaction != null) {
+    } catch (e) {
+        if (authorizationTransaction != null) {
             authorizationTransaction.rollback();
         }
         throw <CommandResponse<void>>{

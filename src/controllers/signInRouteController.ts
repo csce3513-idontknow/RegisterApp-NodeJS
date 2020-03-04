@@ -13,14 +13,14 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 	//  and the "id" property of the (Express.Session)req.session variable
 	//  to sign in the user
 	try {
-		if((await ActiveEmployeeExists.execute()).data === false) {
+		if ((await ActiveEmployeeExists.execute()).data === false) {
 			return res.redirect(RouteLookup.EmployeeDetail);
 		}
 		return res.render(
 			ViewNameLookup.SignIn,
-		)
-	} catch(e) {
-		console.log("Error: " + e.toString());
+		);
+	} catch (e) {
+		console.error(e);
 		res.sendStatus(500);
 	}
 };
@@ -28,7 +28,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 export const signIn = async (req: Request, res: Response): Promise<void> => {
 
 	try {
-		if(!req.session) {
+		if (!req.session) {
 			throw new Error("Session not found");
 		}
 		await EmployeeSignIn.signInQuery(<SignInRequest>{
@@ -36,7 +36,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 			password: req.body.password
 		}, req.session);
 		return res.redirect(RouteLookup.MainMenu);
-	} catch(e) {
+	} catch (e) {
 		res.status(e.status).render(ViewNameLookup.SignIn, <ApiResponse>{
 			errorMessage: e.message
 		});
@@ -47,13 +47,13 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 export const clearActiveUser = async (req: Request, res: Response): Promise<void> => {
 	// TODO: Sign out the user associated with req.session.id
 	try {
-		if(req.session) {
+		if (req.session) {
 			await ClearActiveUser.execute(req.session.id);
 		}
 		res.status(204).send(<ApiResponse>{
 			redirectUrl: RouteLookup.SignIn
 		});
-	} catch(e) {
+	} catch (e) {
 		res.status(e.status).send(<ApiResponse>{
 			redirectUrl: RouteLookup.SignIn,
 			errorMessage: e.message

@@ -9,7 +9,7 @@ import * as DatabaseConnection from "../models/databaseConnection";
 export const execute = async (sessionKey: string): Promise<CommandResponse<void>> => {
 	const activeUserQueried = await ActiveUserRepository.queryBySessionKey(sessionKey);
 
-	if(!activeUserQueried) {
+	if (!activeUserQueried) {
 		Promise.reject(<CommandResponse<void>>{
 			status: 404,
 			message: Resources.getString(ResourceKey.USER_NOT_FOUND)

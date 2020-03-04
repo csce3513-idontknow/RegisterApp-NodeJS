@@ -79,7 +79,7 @@ export const execute = async (
 					createdOn: Helper.formatDate(createdProduct.createdOn)
 				}
 			};
-		}).catch((error: any): Promise<CommandResponse<Product>> => {
+		}).catch ((error: any): Promise<CommandResponse<Product>> => {
 			if (createTransaction != null) {
 				createTransaction.rollback();
 			}
