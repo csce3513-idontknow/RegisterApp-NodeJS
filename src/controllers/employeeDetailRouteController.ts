@@ -37,11 +37,11 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			else if (!canCreateEmployee.employeeExists || canCreateEmployee.isElevatedUser) {
 				return res.render(ViewNameLookup.EmployeeDetail);
 			}
-			else if(!ValidateActiveUser.execute((<Express.Session>req.session).id)) {
+			else if (!ValidateActiveUser.execute((<Express.Session>req.session).id)) {
 				return res.redirect(ViewNameLookup.SignIn);
 			}
 			else {
-				return res.redirect(ViewNameLookup.MainMenu)
+				return res.redirect(ViewNameLookup.MainMenu);
 			}
 		}).catch((error: any): void => {
 			// TODO: Handle any errors that occurred
