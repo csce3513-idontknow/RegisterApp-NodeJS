@@ -1,12 +1,21 @@
 import { EmployeeModel } from "../models/employeeModel";
 import { Resources, ResourceKey } from "../../../resourceLookup";
-import * as EmployeeRepository from "../models/employeeModel";
 import { CommandResponse, Employee } from "../../typeDefinitions";
+import * as EmployeeRepository from "../models/employeeModel";
+import * as Helper from "../helpers/helper";
 
-export const employeeExists = async (id: string): Promise<CommandResponse<Employee>> => {
-    return EmployeeRepository.queryById(id)
+export const employeeLookup = async (employeeId?: string): Promise<CommandResponse<Employee>> => {
+
+    if (Helper.isBlankString(employeeId)) {
+        return Promise.reject(<CommandResponse<Employee>>{
+            status: 422,
+            message: Resources.getString(ResourceKey.EMPLOYEE_EMPLOYEE_ID_INVALID)
+        });
+    }
+
+    return EmployeeRepository.queryById(employeeId)
         .then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<Employee>> => {
-            if(!queriedEmployee) {
+            if (!queriedEmployee) {
                 return Promise.reject(<CommandResponse<Employee>>{
                     status: 404,
                     message: Resources.getString(ResourceKey.EMPLOYEES_UNABLE_TO_QUERY)

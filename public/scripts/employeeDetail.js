@@ -3,22 +3,26 @@ let hideEmployeeSavedAlertTimer = undefined;
 document.addEventListener("DOMContentLoaded", () => {
 	// TODO: Things that need doing when the view is loaded
 	const employeeSaveElement = document.getElementById('saveButton');
-	if(employeeSaveElement) {
-		employeeSaveElement.addEventListener("click", saveActionClick);
+	if (employeeSaveElement) {
+		document.getElementById("saveButton").addEventListener("click", event => {
+			saveActionClick(event);
+		});
 	}
 
-	document.getElementById("signOutImage").addEventListener("click", logout)
+	//document.getElementById("signOutImage").addEventListener("click", logout);
 });
 
 // Save
 function saveActionClick(event) {
 	// TODO: Actually save the employee via an AJAX call
 	const saveActionElement = event.target;
-	
+	saveActionElement.disabled = true;
+
 	const registerId = getRegisterId();
 	const managerId = getManagerId();
 	const employeeId = getEmployeeId();
-	const saveActionUrl = ("/api/employeeDetail/" + (registerId));
+	const employeeExists = employeeId != null && employeeId.trim() !== '';
+	const saveActionUrl = ("/api/employeeDetail/" + (employeeExists ? employeeId : ''));
 	const saveEmployeeRequest = {
 		id: registerId,
 		lastName: getEmployeeLastName(),
@@ -27,35 +31,51 @@ function saveActionClick(event) {
 		classification: getEmployeeType()
 	};
 
+
 	//console.log(JSON.stringify(saveEmployeeRequest));
 
-	if(formValidation()) {
+	if (formValidation()) {
 		console.log("NO ERRORS");
-		ajaxPost(saveActionUrl, saveEmployeeRequest, (callbackResponse) => {
-			if (isSuccessResponse(callbackResponse)) {
-				displayEmployeeSavedAlertModal();
-			}
-		});
+
+		if (employeeExists) {
+			ajaxPatch(saveActionUrl, saveEmployeeRequest, (callbackResponse) => {
+				saveActionElement.disabled = false;
+				if (isSuccessResponse(callbackResponse)) {
+					displayEmployeeSavedAlertModal();
+				}
+			});
+		}
+		else {
+			ajaxPost(saveActionUrl, saveEmployeeRequest, (callbackResponse) => {
+				saveActionElement.disabled = false;
+				if (isSuccessResponse(callbackResponse)) {
+					displayEmployeeSavedAlertModal();
+					if (callbackResponse.data != null && callbackResponse.data.employee != null && callbackResponse.data.employee.id.trim() !== '') {
+						setEmployeeId(callbackResponse.data.employee.id.trim());
+					}
+				}
+			});
+		}
 	}
 }
 
 function formValidation() {
-	if(getEmployeeFirstName() === "") {
+	if (getEmployeeFirstName() === "") {
 		document.getElementById("errorText").innerHTML = "First name field is empty!";
 		document.getElementById("firstName").focus();
 		document.getElementById("firstName").select();
 		return false;
-	} else if(getEmployeeLastName() === "") {
+	} else if (getEmployeeLastName() === "") {
 		document.getElementById("errorText").innerHTML = "Last name field is empty!";
 		document.getElementById("lastName").focus();
 		document.getElementById("lastName").select();
 		return false;
-	} else if(getEmployeePassword() === "") {
+	} else if (getEmployeePassword() === "") {
 		document.getElementById("errorText").innerHTML = "Password field is empty!";
 		document.getElementById("password").focus();
 		document.getElementById("password").select();
 		return false;
-	} else if(getEmployeeVerifyPassword() === "") {
+	} else if (getEmployeeVerifyPassword() === "") {
 		document.getElementById("errorText").innerHTML = "Verify password field is empty!";
 		document.getElementById("verifyPassword").focus();
 		document.getElementById("verifyPassword").select();
@@ -64,7 +84,7 @@ function formValidation() {
 		document.getElementById("errorText").innerHTML = "Passwords do not match!";
 		document.getElementById("password").focus();
 		document.getElementById("password").select();
-		return false; 
+		return false;
 	} else {
 		document.getElementById("errorText").innerHTML = "";
 		return true;
@@ -151,4 +171,7 @@ function getEmployeeId() {
 }
 function getEmployeeIdElement() {
 	return document.getElementById("employeeEmployeeId");
+}
+function setEmployeeId(employeeId) {
+	getEmployeeIdElement().value = employeeId;
 }
