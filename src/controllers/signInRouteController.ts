@@ -26,16 +26,13 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const signIn = async (req: Request, res: Response): Promise<void> => {
-	//verify employee credentials
-	// console.log("HERE");
-	// return res.render(
-	// 	ViewNameLookup.SignIn,
-	// )
+
 	try {
 		if(!req.session) {
+			throw new Error("Session not found");
 		}
 		await EmployeeSignIn.signInQuery(<SignInRequest>{
-			employeeId: req.body.employeeId,
+			employeeId: req.body.employee_Id,
 			password: req.body.password
 		}, req.session);
 		return res.redirect(RouteLookup.MainMenu);
