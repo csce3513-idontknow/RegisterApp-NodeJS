@@ -7,8 +7,8 @@ import * as DatabaseConnection from "../models/databaseConnection";
 import { EmployeeClassification } from "../models/constants/entityTypes";
 import Sequelize from "sequelize";
 
-const saveValidation = (saveEmployeeRequest: EmployeeSaveRequest): CommandResponse<Employee> => {
-    let errorMsg = '';
+const validateSaveRequest = (saveEmployeeRequest: EmployeeSaveRequest): CommandResponse<Employee> => {
+    let errorMsg: string = "";
 
     //Validation
     if (Helper.isBlankString(saveEmployeeRequest.firstName)) {
@@ -33,12 +33,12 @@ const saveValidation = (saveEmployeeRequest: EmployeeSaveRequest): CommandRespon
 };
 
 export const execute = async (saveEmployeeRequest: EmployeeSaveRequest): Promise<CommandResponse<Employee>> => {
-    const response: CommandResponse<Employee> = saveValidation(saveEmployeeRequest);
-    if (response.status !== 200) {
-        return Promise.reject(response);
+    const validationResponse: CommandResponse<Employee> = validateSaveRequest(saveEmployeeRequest);
+    if (validationResponse.status !== 200) {
+        return Promise.reject(validationResponse);
     }
 
-    const employeeCreation: EmployeeModel = <EmployeeModel>{
+    const employeeToCreate: EmployeeModel = <EmployeeModel>{
         active: saveEmployeeRequest.active,
         lastName: saveEmployeeRequest.lastName,
         password: Buffer.from(saveEmployeeRequest.password),
@@ -50,40 +50,40 @@ export const execute = async (saveEmployeeRequest: EmployeeSaveRequest): Promise
     let createTransaction: Sequelize.Transaction;
 
     return DatabaseConnection.createTransaction()
-        .then((madeTransation: Sequelize.Transaction): Promise<EmployeeModel | null> => {
-            createTransaction = madeTransation;
+        .then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
+            createTransaction = createdTransaction;
             return EmployeeRepository.queryByEmployeeId(+saveEmployeeRequest.id!, createTransaction);
 
-        }).then((searchedEmployee: (EmployeeModel | null)): Promise<EmployeeModel> => {
-            if (searchedEmployee != null) {
+        }).then((queriedEmployee: (EmployeeModel | null)): Promise<EmployeeModel> => {
+            if (queriedEmployee != null) {
                 return Promise.reject(<CommandResponse<Employee>>{
                     status: 409,
                     message: Resources.getString(ResourceKey.EMPLOYEES_UNABLE_TO_QUERY)
                 });
             }
             return EmployeeModel.create(
-                employeeCreation,
+                employeeToCreate,
                 <Sequelize.CreateOptions>{
                     transaction: createTransaction
                 });
-        }).then((madeEmployee: EmployeeModel): CommandResponse<Employee> => {
+        }).then((createdEmployee: EmployeeModel): CommandResponse<Employee> => {
             createTransaction.commit();
             return <CommandResponse<Employee>>{
                 status: 201,
                 data: <Employee>{
-                    active: madeEmployee.active,
-                    lastName: madeEmployee.lastName,
-                    password: madeEmployee.password,
-                    firstName: madeEmployee.firstName,
-                    managerId: madeEmployee.managerId,
-                    classification: madeEmployee.classification,
-                    id: madeEmployee.id,
-                    createdOn: madeEmployee.createdOn,
-                    employeeId: madeEmployee.id
+                    active: createdEmployee.active,
+                    lastName: createdEmployee.lastName,
+                    password: createdEmployee.password,
+                    firstName: createdEmployee.firstName,
+                    managerId: createdEmployee.managerId,
+                    classification: createdEmployee.classification,
+                    id: createdEmployee.id,
+                    createdOn: createdEmployee.createdOn,
+                    employeeId: createdEmployee.id
                 }
             };
         }).catch((error: any): Promise<CommandResponse<Employee>> => {
-            if(createTransaction != null) {
+            if (createTransaction != null) {
                 createTransaction.rollback();
             }
 

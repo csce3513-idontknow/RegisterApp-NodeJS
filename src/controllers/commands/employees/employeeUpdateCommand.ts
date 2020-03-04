@@ -10,8 +10,8 @@ import Sequelize from "sequelize";
 import sequelize from "sequelize";
 import { promises } from "dns";
 
-const saveValidation = (saveEmployeeRequest: EmployeeSaveRequest): CommandResponse<Employee> => {
-    let errorMsg = '';
+const validateSaveRequest = (saveEmployeeRequest: EmployeeSaveRequest): CommandResponse<Employee> => {
+    let errorMsg: string = "";
 
     //Validation
     if (Helper.isBlankString(saveEmployeeRequest.firstName)) {
@@ -36,18 +36,18 @@ const saveValidation = (saveEmployeeRequest: EmployeeSaveRequest): CommandRespon
 };
 
 export const execute = async (saveEmployeeRequest: EmployeeSaveRequest): Promise<CommandResponse<Employee>> => {
-    const response: CommandResponse<Employee> = saveValidation(saveEmployeeRequest);
+    const response: CommandResponse<Employee> = validateSaveRequest(saveEmployeeRequest);
     if (response.status !== 200) {
         return Promise.reject(response);
     }
 
-   let transactionUpdate: Sequelize.Transaction;
+   let updateTransaction: Sequelize.Transaction;
 
 
     return DatabaseConnection.createTransaction()
-        .then((madeTransation: Sequelize.Transaction): Promise<EmployeeModel | null> => {
-            transactionUpdate = madeTransation;
-            return EmployeeRepository.queryByEmployeeId(+saveEmployeeRequest.id!, transactionUpdate);
+        .then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
+            updateTransaction = createdTransaction;
+            return EmployeeRepository.queryByEmployeeId(+saveEmployeeRequest.id!, updateTransaction);
 
         }).then((searchedEmployee: (EmployeeModel | null)): Promise<EmployeeModel> => {
             if (searchedEmployee == null) {
@@ -66,18 +66,18 @@ export const execute = async (saveEmployeeRequest: EmployeeSaveRequest): Promise
                    classification: saveEmployeeRequest.isInitialEmployee ? EmployeeClassification.GeneralManager : saveEmployeeRequest.classification,   
                },
                <Sequelize.InstanceUpdateOptions>{
-                   transaction: transactionUpdate
+                   transaction: updateTransaction
                });
 
         }).then((updatedEmployee: EmployeeModel): CommandResponse<Employee> => {
-            transactionUpdate.commit();
+            updateTransaction.commit();
             return <CommandResponse<Employee>>{
                 status: 200,
                 data: EmployeeHelper.mapEmployeeData(updatedEmployee)
             };
         }).catch((error: any): Promise<CommandResponse<Employee>> => {
-            if(transactionUpdate != null) {
-                transactionUpdate.rollback();
+            if(updateTransaction != null) {
+                updateTransaction.rollback();
             }
 
             return Promise.reject(<CommandResponse<Employee>>{
