@@ -57,8 +57,8 @@ const saveProduct = async (
 			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.ShiftManager ) {
 				isElevatedUser = true;
 			}
-			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.NotDefined ) { //not elevated user 
-				res.redirect( RouteLookup.ProductListing, 401 ); 
+			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.NotDefined ) { // not elevated user
+				res.redirect( RouteLookup.ProductListing, 401 );
 			}});
 	return performSave(req.body)
 		.then((createProductCommandResponse: CommandResponse<Product>): void => {
@@ -94,8 +94,8 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
 			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.ShiftManager ) {
 				isElevatedUser = true;
 			}
-			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.NotDefined ) { //not elevated user 
-				res.redirect( RouteLookup.ProductListing, 401 ); 
+			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.NotDefined ) { // not elevated user
+				res.redirect( RouteLookup.ProductListing, 401 );
 			}});
 	return ProductDeleteCommand.execute(req.params[ParameterLookup.ProductId])
 		.then((deleteProductCommandResponse: CommandResponse<void>): void => {

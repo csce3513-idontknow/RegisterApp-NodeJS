@@ -6,16 +6,9 @@ import { CommandResponse, Employee } from "../../typeDefinitions";
 export const execute = async(): Promise<CommandResponse<boolean>> => {
 	return EmployeeRepository.queryActiveExists()
 		.then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<boolean>> => {
-			if (!queriedEmployee) {
-				return Promise.reject(<CommandResponse<boolean>>{
+				return Promise.resolve(<CommandResponse<boolean>>{
 					status: 200,
-					data: false
+					data: queriedEmployee !== null
 				});
-			}
-
-			return Promise.resolve(<CommandResponse<boolean>>{
-					status: 200,
-					data: true
-                });
 	});
 };
