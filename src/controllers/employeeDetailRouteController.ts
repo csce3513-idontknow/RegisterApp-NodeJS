@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as Helper from "./helpers/routeControllerHelper";
+import * as Helper from "./Helpers/routeControllerHelper";
 import { Resources, ResourceKey } from "../resourceLookup";
 import * as EmployeeHelper from "./commands/employees/helpers/employeeHelper";
 import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCommand";
