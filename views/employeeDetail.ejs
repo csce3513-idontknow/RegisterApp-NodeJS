@@ -1,0 +1,120 @@
+<html>
+
+<head>
+	<title>Register - Employee</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+	<link rel="stylesheet" type="text/css" href="/styles/master.css">
+
+	<script type="text/javascript" src="/scripts/master.js" defer></script>
+	<script type="text/javascript" src="/scripts/employeeDetail.js" defer></script>
+</head>
+
+<body>
+
+	<div class="header">
+		<h1 class="primary-message">Employee Detail</h1>
+	</div>
+		
+	<div id="main" class="main">
+		<div id="error" <% if (!locals.errorMessage || (locals.errorMessage === "")) { %> class="hidden" <% } %>>
+			<h4 id="errorMessage" class="error-message">
+				<% if (locals.errorMessage && (locals.errorMessage !== "")) { %>
+					<%= locals.errorMessage %>
+				<% } %>
+			</h4>
+		</div>
+
+		<div class="inputContent">
+			<table id="employeeDetails">
+				<tbody>
+					<tr class="hidden">
+						<td>ID:</td>
+						<td>
+							<input id="employeeId" type="hidden" value="<% if (locals.employee && locals.employee.id) { %><%= locals.employee.id %><% } %>" />
+						</td>
+					</tr>
+
+					<tr class="hidden">
+						<td>Manager ID:</td>
+						<td>
+							<input id="employeeManagerId" type="hidden" value="<% if (locals.employee && locals.employee.managerId) { %><%= locals.employee.managerId %><% } %>" />
+						</td>
+					</tr>
+
+					<tr <% if (!locals.employee || !locals.employee.id || (locals.employee.id.trim() === "")) { %>class="hidden"<% } %>>
+						<td class="label">Employee ID:</td>
+						<td>
+							<input id="employeeEmployeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
+						</td>
+					</tr>
+
+					<tr>
+						<td>First name:</td>
+						<td>
+							<input id="firstName" type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td>Last Name:</td>
+						<td>
+							<input id="lastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td>Password:</td>
+						<td>
+							<input id="password" type="password" value="<% if (locals.employee && locals.employee.password) { %><%= locals.employee.password %><% } %>"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td>Verify Password:</td>
+						<td>
+							<input id="verifyPassword" type="password" value="<% if (locals.employee && locals.employee.verifyPassword) { %><%= locals.employee.verifyPassword %><% } %>"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td>Employee Type:</td>
+						<td>
+							<select id ="type">
+								<option value ="101">Cashier</option>	
+								<option value ="501">Shift Manager</option>	
+								<option value ="701">General Manager</option>		
+							</select>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<p id="errorText" style="color:red;"></p>
+		</div>
+
+		<!-- TODO: An action element to initiate a save -->
+		<div id="employeeSave">
+			<input id="saveButton" type="button" value="Save">
+		</div>
+
+		<div id="employeeSavedAlertModal" class="modal animate-opacity-show">
+			<div class="modal-content">
+				<div class="container gray-blue">
+					<h1>
+						<span>Employee</span><br />
+						<span>Saved</span>
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer <% if (locals.isInitialEmployee) { %>hidden<% } %>">
+		<img id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" class="footer" />
+
+	</div>
+
+</body>
+
+</html>

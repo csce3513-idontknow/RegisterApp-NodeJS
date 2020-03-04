@@ -21,9 +21,11 @@ export enum RouteLookup {
 	EmployeeDetail = "/employeeDetail",
 	ProductDetail = "/productDetail",
 	ProductListing = "/productListing",
+	EmployeeDetail = "/employeeDetail",
 
 	// Page routing - parameters
 	ProductIdParameter = "/:productId",
+	EmployeeIdParameter = "/:employeeId",
 	// End page routing - parameters
 	// End page routing
 
