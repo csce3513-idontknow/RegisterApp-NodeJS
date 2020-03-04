@@ -15,6 +15,11 @@ export interface EmployeeSaveRequest {
 	classification: number;
 	isInitialEmployee?: boolean;
 }
+export interface SignInRequest {
+	employeeId: string;
+	password: string;
+}
+
 // End request object definitions
 
 // Response object definitions

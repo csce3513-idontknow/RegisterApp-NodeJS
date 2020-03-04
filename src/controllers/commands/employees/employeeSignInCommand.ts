@@ -1,27 +1,46 @@
-import { EmployeeModel } from "../models/employeeModel";
 import { Resources, ResourceKey } from "../../../resourceLookup";
-import * as EmployeeRepository from "../models/employeeModel";
+import * as Helper from "../helpers/helper";
+import * as EmployeeModel from "../models/employeeModel";
+import * as DatabaseConnection from "../models/databaseConnection";
+import { SignInRequest } from "../../typeDefinitions";
 import { CommandResponse, Employee } from "../../typeDefinitions";
+import Sequelize from "sequelize";
+import * as ActiveUserModel from "../models/activeUserModel";
 
-export const signInQuery = async (id: string, employeePassword: string): Promise<CommandResponse<Employee>> => {
-    return EmployeeRepository.queryById(id)
-        .then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<Employee>> => {
+export const signInQuery = async (signInRequest: SignInRequest, session: Express.Session): Promise<CommandResponse<void>> => {
 
-            if (!queriedEmployee) {
-                return Promise.reject(<CommandResponse<Employee>>{
-                    status: 404,
-                    message: Resources.getString(ResourceKey.EMPLOYEE_EMPLOYEE_ID_INVALID)
-                });
-            } else if (queriedEmployee.password.toString() != employeePassword) {
-                return Promise.reject(<CommandResponse<Employee>>{
-                    status: 404,
-                    message: Resources.getString(ResourceKey.EMPLOYEE_PASSWORD_INVALID)
-                });
-            }
+    let authorizationTransaction: Sequelize.Transaction | null = null;
 
-            return Promise.resolve(<CommandResponse<Employee>>{
-                status: 200,
-                employee: queriedEmployee
+    try {
+        authorizationTransaction = await DatabaseConnection.createTransaction();
+        const employeeObj = await EmployeeModel.queryByEmployeeId(parseInt(signInRequest.employeeId), authorizationTransaction);
+        if(employeeObj == null || employeeObj.password.toString() != signInRequest.password) {
+            throw <CommandResponse<void>>{
+                status: 403,
+                message: Resources.getString(ResourceKey.USER_SIGN_IN_CREDENTIALS_INVALID)
+            };
+        }
+        const activeUserObj = await ActiveUserModel.queryByEmployeeId(employeeObj.id, authorizationTransaction);
+        if(activeUserObj !== null) {
+            activeUserObj.set('sessionKey', session.id);
+            await activeUserObj.save();
+        } else {
+            await ActiveUserModel.ActiveUserModel.create({
+                name: '${employeeObj.firstName} ${employeeObj.lastName}',
+                createdOn: new Date(),
+                employeeId: employeeObj.id,
+                sessionKey: session.id,
+                classification: employeeObj.classification
             });
-        });
-}
+        }
+        await authorizationTransaction.commit();
+        return <CommandResponse<void>>{ status: 204 };
+    } catch(e) {
+        if(authorizationTransaction != null) {
+            authorizationTransaction.rollback();
+        }
+        throw <CommandResponse<void>>{
+            message: e.message || Resources.getString(ResourceKey.USER_UNABLE_TO_SIGN_IN)
+        };
+    }
+};
