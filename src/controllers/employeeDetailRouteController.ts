@@ -5,6 +5,9 @@ import * as EmployeeHelper from "./commands/employees/helpers/employeeHelper";
 import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCommand";
 import { CommandResponse, Employee, EmployeeSaveRequest, ActiveUser } from "./typeDefinitions";
 import { ViewNameLookup } from "./lookups/routingLookup";
+import * as EmployeeQuery from "./commands/employees/employeeQuery";
+import * as EmployeeCreate from "./commands/employees/employeeUpdateCommand";
+import * EmployeeUpdate from "./commands/employees/employeeUpdateCommand";
 
 interface CanCreateEmployee {
 	employeeExists: boolean;
