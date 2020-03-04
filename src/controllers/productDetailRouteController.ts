@@ -84,6 +84,19 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 };
 
 export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
+	ValidateActiveUser.execute((<Express.Session>req.session).id)
+		.then((activeUserCommandResponse: CommandResponse<ActiveUser>): void => {
+			// TODO: Examine the ActiveUser classification if you want this information
+			let isElevatedUser: boolean = false;
+			if ( activeUserCommandResponse.data?.classification == EmployeeClassification.GeneralManager ) {
+				isElevatedUser = true;
+			}
+			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.ShiftManager ) {
+				isElevatedUser = true;
+			}
+			else if ( activeUserCommandResponse.data?.classification == EmployeeClassification.NotDefined ) { //not elevated user 
+				res.redirect( RouteLookup.ProductListing, 401 ); 
+			}});
 	return ProductDeleteCommand.execute(req.params[ParameterLookup.ProductId])
 		.then((deleteProductCommandResponse: CommandResponse<void>): void => {
 			res.status(deleteProductCommandResponse.status)
