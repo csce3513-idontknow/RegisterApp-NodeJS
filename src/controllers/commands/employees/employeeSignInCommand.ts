@@ -8,9 +8,6 @@ import Sequelize from "sequelize";
 import * as ActiveUserModel from "../models/activeUserModel";
 
 
-
-
-
 export const signInQuery = async (signInRequest: SignInRequest, session: Express.Session): Promise<CommandResponse<void>> => {
 
     let authorizationTransaction: Sequelize.Transaction | null = null;

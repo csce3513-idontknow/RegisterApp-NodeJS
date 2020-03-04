@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Resources, ResourceKey } from "../resourceLookup";
-import * as Helper from "./Helpers/routeControllerHelper";
+import * as Helper from "./helpers/routeControllerHelper";
 import { ViewNameLookup, QueryParameterLookup, RouteLookup } from "./lookups/routingLookup";
 import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCommand";
 import { PageResponse, CommandResponse, ActiveUser, MainMenuPageResponse } from "./typeDefinitions";
@@ -50,7 +50,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 					isElevatedUser: isElevatedUser,
 					errorMessage: Resources.getString(req.query[QueryParameterLookup.ErrorCode])
 				});
-		}).catch ((error: any): void => {
+		}).catch((error: any): void => {
 			if (!Helper.processStartError(error, res)) {
 				res.setHeader(
 					"Cache-Control",

@@ -32,8 +32,8 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 			throw new Error("Session not found");
 		}
 		await EmployeeSignIn.signInQuery(<SignInRequest>{
-			employeeId: req.body.employee_Id,
-			password: req.body.password
+			employeeId: req.body.employee_id,
+			password: req.body.password1
 		}, req.session);
 		return res.redirect(RouteLookup.MainMenu);
 	} catch (e) {
