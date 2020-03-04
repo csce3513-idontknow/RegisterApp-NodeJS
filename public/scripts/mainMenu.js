@@ -14,7 +14,7 @@ function startTransaction(){
 }
 
 function viewProducts () {
-	location.assign("/productDetail");
+	location.assign("/productListing");
 }
 
 function createEmployee () {
