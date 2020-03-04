@@ -33,7 +33,7 @@ export const execute = async (productId?: string): Promise<CommandResponse<void>
 			deleteTransaction.commit();
 
 			return <CommandResponse<void>>{ status: 204 };
-		}).catch((error: any): Promise<CommandResponse<void>> => {
+		}).catch ((error: any): Promise<CommandResponse<void>> => {
 			if (deleteTransaction != null) {
 				deleteTransaction.rollback();
 			}

@@ -36,7 +36,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 				<ProductDetailPageResponse>{
 					product: productsCommandResponse.data
 				});
-		}).catch((error: any): void => {
+		}).catch ((error: any): void => {
 			return processStartProductDetailError(res, error);
 		});
 };
@@ -66,7 +66,7 @@ const saveProduct = async (
 				.send(<ProductSaveResponse>{
 					product: <Product>createProductCommandResponse.data
 				});
-		}).catch((error: any): void => {
+		}).catch ((error: any): void => {
 			res.status(error.status || 500)
 				.send(<ApiResponse>{
 					errorMessage: (error.message
@@ -103,7 +103,7 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
 				.send(<ApiResponse>{
 					redirectUrl: RouteLookup.ProductListing
 				});
-		}).catch((error: any): void => {
+		}).catch ((error: any): void => {
 			res.status(error.status || 500)
 				.send(<ApiResponse>{
 					errorMessage: (error.message

@@ -32,7 +32,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 				<ProductListingPageResponse>{
 					products: productsCommandResponse.data
 				});
-		}).catch((error: any): void => {
+		}).catch ((error: any): void => {
 			return processStartProductListingError(error, res);
 		});
 };

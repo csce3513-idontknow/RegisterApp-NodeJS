@@ -50,7 +50,7 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 					isElevatedUser: isElevatedUser,
 					errorMessage: Resources.getString(req.query[QueryParameterLookup.ErrorCode])
 				});
-		}).catch((error: any): void => {
+		}).catch ((error: any): void => {
 			if (!Helper.processStartError(error, res)) {
 				res.setHeader(
 					"Cache-Control",
