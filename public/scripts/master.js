@@ -178,13 +178,6 @@ function getErrorMessageDisplayElement() {
 }
 // End getters and setters
 
-
-function logout() {
-	ajaxDelete("/api/signOut");
-
-	location.replace("/");
-}
-
 //Sign out
 function signOutActionClickHandler() {
 	ajaxDelete("/api/signOut", (callbackResponse) => {
@@ -199,4 +192,3 @@ function signOutActionClickHandler() {
 	});
 }
 //End sign out
-

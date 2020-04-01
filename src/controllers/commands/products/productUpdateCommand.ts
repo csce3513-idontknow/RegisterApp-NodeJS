@@ -72,7 +72,7 @@ export const execute = async (
 				status: 200,
 				data: ProductHelper.mapProductData(updatedProduct)
 			};
-		}).catch ((error: any): Promise<CommandResponse<Product>> => {
+		}).catch((error: any): Promise<CommandResponse<Product>> => {
 			if (updateTransaction != null) {
 				updateTransaction.rollback();
 			}

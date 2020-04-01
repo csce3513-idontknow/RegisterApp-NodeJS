@@ -1,19 +1,22 @@
-<!DOCTYPE html>
-<html> 
-<head> 
+<html>
 
-<title>Register - Sign In</title>
+<head>
+	<title>Register - Sign In</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-	<!-- <link rel="stylesheet" type="text/css" href="/public/styles/master.css"> -->
-	<!-- <link rel="stylesheet" type="text/css" href="/styles/signIn.css"> -->
+	<link rel="stylesheet" type="text/css" href="/styles/master.css">
 
-	<!-- <script type="text/javascript" src="/public/scripts/master.js" defer></script>
-	<script type="text/javascript" src="/scripts/signIn.js" defer></script> -->
+	<script type="text/javascript" src="/scripts/master.js" defer></script>
+	<script type="text/javascript" src="/scripts/signIn.js" defer></script>
 </head>
+
 <body>
 
-<div id="main" class="main">
+	<div class="header">
+		<h1 class="primary-message">Sign In</h1>
+	</div>
+		
+	<div id="main" class="main">
 		<div id="error" <% if (!locals.errorMessage || (locals.errorMessage === "")) { %> class="hidden" <% } %>>
 			<h4 id="errorMessage" class="error-message">
 				<% if (locals.errorMessage && (locals.errorMessage !== "")) { %>
@@ -22,28 +25,20 @@
 			</h4>
 		</div>
 
-	<form action="/" method="post" onsubmit="return FormValidation()">
-		<label for="employee_id">Employee ID:</label><br>
-		<input type="number" id="employee_id" name="employee_id"><br>
-		<label for="password1">Password:</label><br>
-		<input type="password" id="password1" name="password1"><br><br>
-		<input id="saveButton" type = "submit" value="Sign In">
-	</form>
-</div>
+		<form action="/" method="POST" onsubmit="return validateForm();" class="inputContent">
+			<div>
+				<input id="employeeId" type="number" name="employeeId" placeholder="Employee ID" class="update" value="<% if (locals.employeeId && (locals.employeeId.trim() !== '')) { %><%= locals.employeeId %><% } %>" />
+			</div>
+			<div>
+				<input id="password" type="password" name="password" placeholder="Password" class="update" />
+			</div>
+			<br /><br />
+			<div>
+				<input type="submit" value="Sign In" class="submit" />
+			</div>
+		</form>
+	</div>
+		
 </body>
-<script>
-function FormValidation(){
-	// Stores Values into Variables
-	var employee_id = document.getElementById("employee_id").value;
-	var password1 = document.getElementById("password1").value;
-	//Condition
-	if (employee_id != '' && password1 != ''){
-		return true;
-	}
-	else{
-		alert("*ALERT All fields are required*");
-		return false;
-	}
-}
-</script>
+
 </html>

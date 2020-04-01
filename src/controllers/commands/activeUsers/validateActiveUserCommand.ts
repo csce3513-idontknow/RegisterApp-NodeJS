@@ -1,4 +1,3 @@
-
 import { ActiveUserModel } from "../models/activeUserModel";
 import { Resources, ResourceKey } from "../../../resourceLookup";
 import * as ActiveUserRepository from "../models/activeUserModel";
@@ -20,4 +19,3 @@ export const execute = async (sessionKey: string): Promise<CommandResponse<Activ
 			});
 	});
 };
-

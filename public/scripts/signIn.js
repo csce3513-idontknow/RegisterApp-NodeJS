@@ -1,15 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
-	// TODO: Anything you want to do when the page is loaded?
-
-	//getSignInElement().addEventListener("click", FormValidation());
-
+	const employeeIdEditElement = getEmployeeIdEditElement();
+	employeeIdEditElement.focus();
+	employeeIdEditElement.select();
 });
 
 function validateForm() {
-	// TODO: Validate the user input
+	const employeeIdEditElement = getEmployeeIdEditElement();
+	if (isNaN(Number(employeeIdEditElement.value))
+		|| (Number(employeeIdEditElement.value) <= 0)) {
+
+		displayError("Please provide a valid employee ID.");
+
+		employeeIdEditElement.focus();
+		employeeIdEditElement.select();
+		
+		return false;
+	}
+
+	const passwordEditElement = getPasswordEditElement();
+	if ((passwordEditElement.value == null)
+		|| (passwordEditElement.value.trim() === "")) {
+
+		displayError("Please provide a valid password. It may not be blank.");
+
+		passwordEditElement.focus();
+		passwordEditElement.select();
+		
+		return false;
+	}
+
 	return true;
 }
 
-function getSignInElement() {
-	return document.getElementById("saveButton");
+//Getters and setters
+function getPasswordEditElement() {
+	return document.getElementById("password");
 }
+
+function getEmployeeIdEditElement() {
+	return document.getElementById("employeeId");
+}
+//End getters and setters

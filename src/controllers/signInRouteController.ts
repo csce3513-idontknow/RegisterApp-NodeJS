@@ -1,63 +1,70 @@
 import { Request, Response } from "express";
-import { Resources } from "../resourceLookup";
-import * as Helper from "./Helpers/routeControllerHelper";
-import { ViewNameLookup, RouteLookup } from "./lookups/routingLookup";
-import * as EmployeeSignIn from "../controllers/commands/employees/employeeSignInCommand";
-import { PageResponse, CommandResponse, Employee } from "./typeDefinitions";
-import * as ActiveEmployeeExists from "../controllers/commands/employees/activeEmployeeExistsQuery";
+import { Resources, ResourceKey } from "../resourceLookup";
+import * as EmployeeSignIn from "./commands/employees/employeeSignInCommand";
 import * as ClearActiveUser from "./commands/activeUsers/clearActiveUserCommand";
-import { SignInRequest, ApiResponse } from "./typeDefinitions";
+import * as EmployeeExistsQuery from "./commands/employees/activeEmployeeExistsQuery";
+import { PageResponse, CommandResponse, ApiResponse, SignInPageResponse } from "./typeDefinitions";
+import { ViewNameLookup, RouteLookup, QueryParameterLookup, ParameterLookup } from "./lookups/routingLookup";
 
 export const start = async (req: Request, res: Response): Promise<void> => {
-	// TODO: Use the credentials provided in the request body (req.body)
-	//  and the "id" property of the (Express.Session)req.session variable
-	//  to sign in the user
-	try {
-		if ((await ActiveEmployeeExists.execute()).data === false) {
-			return res.redirect(RouteLookup.EmployeeDetail);
-		}
-		return res.render(
-			ViewNameLookup.SignIn,
-		);
-	} catch (e) {
-		console.error(e);
-		res.sendStatus(500);
-	}
+	return EmployeeExistsQuery.query()
+		.then((employeeExistsCommandResponse: CommandResponse<boolean>): void => {
+			if ((employeeExistsCommandResponse.data == null)
+				|| !employeeExistsCommandResponse.data) {
+
+				return res.redirect(ViewNameLookup.EmployeeDetail);
+			}
+
+			return res.render(
+				ViewNameLookup.SignIn,
+				<SignInPageResponse>{
+					employeeId: req.query[ParameterLookup.EmployeeId],
+					errorMessage: Resources.getString(
+						req.query[QueryParameterLookup.ErrorCode])
+				});
+		}).catch((error: any): void => {
+			return res.render(
+				ViewNameLookup.SignIn,
+				<PageResponse>{
+					errorMessage: (error.message
+						|| Resources.getString(
+							ResourceKey.EMPLOYEES_UNABLE_TO_QUERY))
+				});
+		});
 };
 
 export const signIn = async (req: Request, res: Response): Promise<void> => {
+	return EmployeeSignIn.execute(req.body, req.session)
+		.then((): void => {
+			return res.redirect(RouteLookup.MainMenu);
+		}).catch((error: any): void => {
+			console.error(
+				"An error occurred when attempting to perform employee sign in. "
+				+ error.message);
 
-	try {
-		if (!req.session) {
-			throw new Error("Session not found");
-		}
-		await EmployeeSignIn.signInQuery(<SignInRequest>{
-			employeeId: req.body.employee_id,
-			password: req.body.password1
-		}, req.session);
-		return res.redirect(RouteLookup.MainMenu);
-	} catch (e) {
-		res.status(e.status).render(ViewNameLookup.SignIn, <ApiResponse>{
-			errorMessage: e.message
+			return res.redirect(RouteLookup.SignIn
+				+ "?" + QueryParameterLookup.ErrorCode
+				+ "=" + ResourceKey.USER_UNABLE_TO_SIGN_IN);
 		});
-	}
-
 };
 
 export const clearActiveUser = async (req: Request, res: Response): Promise<void> => {
-	// TODO: Sign out the user associated with req.session.id
-	try {
-		if (req.session) {
-			await ClearActiveUser.execute(req.session.id);
-		}
-		res.status(204).send(<ApiResponse>{
-			redirectUrl: RouteLookup.SignIn
-		});
-	} catch (e) {
-		res.status(e.status).send(<ApiResponse>{
-			redirectUrl: RouteLookup.SignIn,
-			errorMessage: e.message
-		});
-	}
-};
+	if (req.session == null) {
+		res.status(204)
+			.send(<ApiResponse>{ redirectUrl: RouteLookup.SignIn });
 
+		return;
+	}
+
+	return ClearActiveUser.removeBySessionKey((<Express.Session>req.session).id)
+		.then((removeCommandResponse: CommandResponse<void>): void => {
+			res.status(removeCommandResponse.status)
+				.send(<ApiResponse>{ redirectUrl: RouteLookup.SignIn });
+		}).catch((error: any): void => {
+			res.status(error.status || 500)
+				.send(<ApiResponse>{
+					errorMessage: error.message,
+					redirectUrl: RouteLookup.SignIn
+				});
+		});
+};

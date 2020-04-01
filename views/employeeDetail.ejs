@@ -34,68 +34,59 @@
 							<input id="employeeId" type="hidden" value="<% if (locals.employee && locals.employee.id) { %><%= locals.employee.id %><% } %>" />
 						</td>
 					</tr>
-
 					<tr class="hidden">
 						<td>Manager ID:</td>
 						<td>
 							<input id="employeeManagerId" type="hidden" value="<% if (locals.employee && locals.employee.managerId) { %><%= locals.employee.managerId %><% } %>" />
 						</td>
 					</tr>
-
 					<tr <% if (!locals.employee || !locals.employee.id || (locals.employee.id.trim() === "")) { %>class="hidden"<% } %>>
 						<td class="label">Employee ID:</td>
 						<td>
 							<input id="employeeEmployeeId" type="text" value="<% if (locals.employee && locals.employee.employeeId) { %><%= locals.employee.employeeId %><% } %>" class="update" disabled />
 						</td>
 					</tr>
-
 					<tr>
-						<td>First name:</td>
+						<td class="label">First Name:</td>
 						<td>
-							<input id="firstName" type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>"/>
+							<input id="employeeFirstName" type="text" value="<% if (locals.employee && locals.employee.firstName) { %><%= locals.employee.firstName %><% } %>" class="update" />
 						</td>
 					</tr>
-
 					<tr>
-						<td>Last Name:</td>
+						<td class="label">Last Name:</td>
 						<td>
-							<input id="lastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>"/>
+							<input id="employeeLastName" type="text" value="<% if (locals.employee && locals.employee.lastName) { %><%= locals.employee.lastName %><% } %>" class="update" />
 						</td>
 					</tr>
-
 					<tr>
-						<td>Password:</td>
+						<td class="label">Password:</td>
 						<td>
-							<input id="password" type="password" value="<% if (locals.employee && locals.employee.password) { %><%= locals.employee.password %><% } %>"/>
+							<input id="employeePassword" type="password" value="" class="update" />
 						</td>
 					</tr>
-
 					<tr>
-						<td>Verify Password:</td>
+						<td class="label">Confirm Password:</td>
 						<td>
-							<input id="verifyPassword" type="password" value="<% if (locals.employee && locals.employee.verifyPassword) { %><%= locals.employee.verifyPassword %><% } %>"/>
+							<input id="employeeConfirmPassword" type="password" value="" class="update" />
 						</td>
 					</tr>
-
-					<tr>
-						<td>Employee Type:</td>
+					<tr <% if (locals.isInitialEmployee) { %>class="hidden"<% } %>>
+						<td class="label">Employee Type:</td>
 						<td>
-							<select id ="type">
-								<option value ="101">Cashier</option>	
-								<option value ="501">Shift Manager</option>	
-								<option value ="701">General Manager</option>		
+							<select id="employeeType" class="select">
+								<% locals.employeeTypes.forEach((employeeType) => { %>
+									<option value="<%= employeeType.value %>" <% if ((locals.employee != null) && (locals.employee.classification === employeeType.value)) { %>selected<% } %>><%= employeeType.label %></option>
+								<% }); %>
 							</select>
 						</td>
 					</tr>
-					
 				</tbody>
 			</table>
-			<p id="errorText" style="color:red;"></p>
 		</div>
 
-		<!-- TODO: An action element to initiate a save -->
-		<div id="employeeSave">
-			<input id="saveButton" type="button" value="Save">
+		<div class="employeeActionsWrapper <% if (locals.errorMessage && (locals.errorMessage !== "")) { %>hidden<% } %>">
+			<br />
+			<button id="saveButton" type="button" class="action">Save</button>
 		</div>
 
 		<div id="employeeSavedAlertModal" class="modal animate-opacity-show">
@@ -112,7 +103,6 @@
 
 	<div class="footer <% if (locals.isInitialEmployee) { %>hidden<% } %>">
 		<img id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" class="footer" />
-
 	</div>
 
 </body>

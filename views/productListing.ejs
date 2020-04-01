@@ -26,13 +26,11 @@
 		</div>
 
 		<div class="productsWrapper">
-			<% if (locals.isElevatedUser) { %>
-			<div>
+			<div <% if (!locals.isElevatedUser) { %>class="hidden"<% } %>>
 				<a href="/productDetail/" class="button">Create New</a>
 			</div>
 			<br />
 			<br />
-			<%}%>
 
 			<% if (locals.products && (locals.products.length > 0)) { %>
 				<ul id="productsListing" class="products">
@@ -54,7 +52,7 @@
 				window.onunload = function() {
 					const isRefreshedElement = document.getElementById("isRefreshed");
 
-					if (!isRefreshedElement.checked) {
+					if(!isRefreshedElement.checked) {
 						isRefreshedElement.checked = true;
 					} else {
 						isRefreshedElement.checked = false;
@@ -63,6 +61,10 @@
 				}
 			</script>
 		</div>
+	</div>
+
+	<div class="footer">
+		<img id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" class="footer" />
 	</div>
 
 </body>

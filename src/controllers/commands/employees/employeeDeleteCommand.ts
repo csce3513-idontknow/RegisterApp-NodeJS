@@ -1,32 +1,32 @@
 import Sequelize from "sequelize";
 import * as Helper from "../helpers/helper";
-import { ProductModel } from "../models/productModel";
+import { EmployeeModel } from "../models/employeeModel";
 import { CommandResponse } from "../../typeDefinitions";
-import * as ProductRepository from "../models/productModel";
+import * as EmployeeRepository from "../models/employeeModel";
 import { Resources, ResourceKey } from "../../../resourceLookup";
 import * as DatabaseConnection from "../models/databaseConnection";
 
-export const execute = async (productId?: string): Promise<CommandResponse<void>> => {
-	if (Helper.isBlankString(productId)) {
-		return <CommandResponse<void>>{ status: 204 };
+export const execute = async (employeeId?: string): Promise<CommandResponse<void>> => {
+	if (Helper.isBlankString(employeeId)) {
+		return Promise.resolve(<CommandResponse<void>>{ status: 204 });
 	}
 
 	let deleteTransaction: Sequelize.Transaction;
 
 	return DatabaseConnection.createTransaction()
-		.then((createdTransaction: Sequelize.Transaction): Promise<ProductModel | null> => {
+		.then((createdTransaction: Sequelize.Transaction): Promise<EmployeeModel | null> => {
 			deleteTransaction = createdTransaction;
 
-			return ProductRepository.queryById(
-				<string>productId,
+			return EmployeeRepository.queryById(
+				<string>employeeId,
 				deleteTransaction);
-		}).then((queriedProduct: (ProductModel | null)): Promise<void> => {
-			if (queriedProduct == null) {
+		}).then((queriedEmployee: (EmployeeModel | null)): Promise<void> => {
+			if (queriedEmployee == null) {
 				return Promise.resolve();
 			}
 
-			return queriedProduct.destroy(
-				<Sequelize.InstanceDestroyOptions>{
+			return queriedEmployee.destroy(
+				<Sequelize.DestroyOptions>{
 					transaction: deleteTransaction
 				});
 		}).then((): CommandResponse<void> => {
@@ -41,7 +41,7 @@ export const execute = async (productId?: string): Promise<CommandResponse<void>
 			return Promise.reject(<CommandResponse<void>>{
 				status: (error.status || 500),
 				message: (error.message
-					|| Resources.getString(ResourceKey.PRODUCT_UNABLE_TO_DELETE))
+					|| Resources.getString(ResourceKey.EMPLOYEE_UNABLE_TO_DELETE))
 			});
 		});
 };

@@ -1,14 +1,21 @@
 import { EmployeeModel } from "../models/employeeModel";
-import { Resources, ResourceKey } from "../../../resourceLookup";
+import { CommandResponse } from "../../typeDefinitions";
 import * as EmployeeRepository from "../models/employeeModel";
-import { CommandResponse, Employee } from "../../typeDefinitions";
+import { Resources, ResourceKey } from "../../../resourceLookup";
 
-export const execute = async(): Promise<CommandResponse<boolean>> => {
+export const query = async (): Promise<CommandResponse<boolean>> => {
 	return EmployeeRepository.queryActiveExists()
-		.then((queriedEmployee: (EmployeeModel | null)): Promise<CommandResponse<boolean>> => {
-				return Promise.resolve(<CommandResponse<boolean>>{
-					status: 200,
-					data: queriedEmployee !== null
-				});
-	});
+		.then((queriedEmployee: (EmployeeModel | null)): CommandResponse<boolean> => {
+			if (!queriedEmployee) {
+				return <CommandResponse<boolean>>{
+					status: 404,
+					message: Resources.getString(ResourceKey.EMPLOYEE_NOT_FOUND)
+				};
+			}
+
+			return <CommandResponse<boolean>>{
+				data: true,
+				status: 200
+			};
+		});
 };

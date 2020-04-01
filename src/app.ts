@@ -49,5 +49,4 @@ fileSystem.readdirSync(__dirname + "/routes").forEach(function (routeConfig: str
 
 Resources.loadStrings();
 
-// Hello I am adding a comment
 export default app;
