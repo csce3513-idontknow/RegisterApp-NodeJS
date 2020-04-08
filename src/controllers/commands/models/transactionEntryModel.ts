@@ -1,1 +1,1 @@
-//database files for transaction entries
+// database files for transaction entries
