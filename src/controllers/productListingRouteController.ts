@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ViewNameLookup } from "./lookups/routingLookup";
-import * as Helper from "./helpers/routeControllerHelper";
+import * as Helper from "./Helpers/routeControllerHelper";
 import { Resources, ResourceKey } from "../resourceLookup";
 import * as ProductsQuery from "./commands/products/productsQuery";
 import * as EmployeeHelper from "./commands/employees/helpers/employeeHelper";
