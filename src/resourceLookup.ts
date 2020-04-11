@@ -91,6 +91,10 @@ export enum ResourceKey {
 	PRODUCT_COUNT_NON_NEGATIVE = "0102004",
 	/** Conflict on parameter: lookupcode. */
 	PRODUCT_LOOKUP_CODE_CONFLICT = "0102005",
+	/** Product price must be greater than or equal to zero. */
+	PRODUCT_PRICE_NON_NEGATIVE = "0102006",
+	/** Please provide a valid product price. */
+	PRODUCT_PRICE_INVALID = "0102007",
 	// End general - product
 
 	// General - employee

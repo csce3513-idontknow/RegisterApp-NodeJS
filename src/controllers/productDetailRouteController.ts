@@ -32,7 +32,8 @@ const processStartProductDetailError = (
 				product: <Product>{
 					id: "",
 					count: 0,
-					lookupCode: ""
+					lookupCode: "",
+					price: 0
 				},
 				errorMessage: errorMessage,
 				isElevatedUser: ((currentUser != null)

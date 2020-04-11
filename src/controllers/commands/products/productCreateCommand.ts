@@ -20,7 +20,14 @@ const validateSaveRequest = (
 		errorMessage = Resources.getString(ResourceKey.PRODUCT_COUNT_INVALID);
 	} else if (saveProductRequest.count < 0) {
 		errorMessage = Resources.getString(ResourceKey.PRODUCT_COUNT_NON_NEGATIVE);
-	}
+
+	} else if ((saveProductRequest.price == null)
+	|| isNaN(saveProductRequest.price)) {
+
+		errorMessage = Resources.getString(ResourceKey.PRODUCT_PRICE_INVALID);
+	} else if (saveProductRequest.price < 0) {
+		errorMessage = Resources.getString(ResourceKey.PRODUCT_PRICE_NON_NEGATIVE);
+}
 
 	return ((errorMessage === "")
 		? <CommandResponse<Product>>{ status: 200 }
@@ -42,7 +49,8 @@ export const execute = async (
 
 	const productToCreate: ProductModel = <ProductModel>{
 		count: saveProductRequest.count,
-		lookupCode: saveProductRequest.lookupCode
+		lookupCode: saveProductRequest.lookupCode,
+		price: saveProductRequest.price
 	};
 
 	let createTransaction: Sequelize.Transaction;
@@ -76,6 +84,7 @@ export const execute = async (
 					id: createdProduct.id,
 					count: createdProduct.count,
 					lookupCode: createdProduct.lookupCode,
+					price: createdProduct.price,
 					createdOn: Helper.formatDate(createdProduct.createdOn)
 				}
 			};
