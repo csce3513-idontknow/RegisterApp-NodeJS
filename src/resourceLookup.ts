@@ -34,6 +34,20 @@ export enum ResourceKey {
 	PRODUCTS_UNABLE_TO_QUERY = "0010004",
 	// End database - product
 
+	// Database
+	// Database - transaction
+	/** Transaction unable to save */
+	TRANSACTION_UNABLE_TO_CREATE = '0010101',
+	/** Unable to add product to transaction */
+	TRANSACTION_UNABLE_TO_ADD = '0010102',
+	/** Unable to update transaction */
+	TRANSACTION_UNABLE_TO_UPDATE = '0010103',
+	/** Not enough product in stock for transaction to complete */
+	TRANSACTION_NOT_ENOUGH_IN_STOCK = '0010104',
+	/** Unable to close transaction */
+	TRANSACTION_UNABLE_TO_CLOSE = '0010105',
+	// End database - transaction
+
 	// Database - employee
 	/** Employee was not found. */
 	EMPLOYEE_NOT_FOUND = "0010201",
