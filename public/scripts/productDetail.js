@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	getProductCountElement().addEventListener("keypress", productCountKeypress);
 	productLookupCodeElement.addEventListener("keypress", productLookupCodeKeypress);
+	getProductPriceElement().addEventListener("keypress", productPriceKeypress);
 	
 	getSaveActionElement().addEventListener("click", saveActionClick);
 	getDeleteActionElement().addEventListener("click", deleteActionClick);
@@ -33,6 +34,14 @@ function productCountKeypress(event) {
 	saveActionClick();
 }
 
+function productPriceKeypress(event) {
+	if (event.which !== 13) { // Enter key
+		return;
+	}
+
+	saveActionClick();
+}
+
 // Save
 function saveActionClick(event) {
 	if (!validateSave()) {
@@ -49,7 +58,8 @@ function saveActionClick(event) {
 	const saveProductRequest = {
 		id: productId,
 		count: getProductCount(),
-		lookupCode: getProductLookupCode()
+		lookupCode: getProductLookupCode(),
+		price: getProductPrice()
 	};
 
 	if (productIdIsDefined) {
@@ -93,6 +103,15 @@ function validateSave() {
 		return false;
 	} else if (count < 0) {
 		displayError("Product count may not be negative.");
+		return false;
+	}
+
+	const price = getProductPrice();
+	if ((count == null) || isNaN(count)) {
+		displayError("Please provide a valid product price.");
+		return false;
+	} else if (count < 0) {
+		displayError("Product price may not be negative.");
 		return false;
 	}
 
@@ -179,5 +198,12 @@ function getProductCount() {
 }
 function getProductCountElement() {
 	return document.getElementById("productCount");
+}
+
+function getProductPrice() {
+	return Number(getProductPriceElement().value);
+}
+function getProductPriceElement() {
+	return document.getElementById("productPrice");
 }
 // End getters and setters
