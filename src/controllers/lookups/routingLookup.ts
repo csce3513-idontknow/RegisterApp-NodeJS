@@ -13,7 +13,8 @@ export enum ViewNameLookup {
 	MainMenu = "mainMenu",
 	ProductDetail = "productDetail",
 	EmployeeDetail = "employeeDetail",
-	ProductListing = "productListing"
+	ProductListing = "productListing",
+	Transaction = "transaction"
 }
 
 export enum RouteLookup {
@@ -24,14 +25,13 @@ export enum RouteLookup {
 	ProductDetail = "/productDetail",
 	EmployeeDetail = "/employeeDetail",
 	ProductListing = "/productListing",
-
+	Transaction = "/transaction",
 	// Page routing - parameters
 	ProductIdParameter = "/:productId",
 	EmployeeIdParameter = "/:employeeId",
+	TransactionIdParameter = "/:transactionId",
 	// End page routing - parameters
 	// End page routing
-
 	// API routing
 	API = "/api",
-	// End API routing
 }

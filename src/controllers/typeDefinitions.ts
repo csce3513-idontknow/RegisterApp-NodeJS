@@ -20,6 +20,11 @@ export interface EmployeeSaveRequest {
 	classification: number;
 	isInitialEmployee?: boolean;
 }
+
+export interface TransactionSaveRequest {
+	employeeId: string;
+	productIds: [];
+}
 // End request object definitions
 
 // Response object definitions
@@ -66,6 +71,9 @@ export interface SignInPageResponse extends PageResponse {
 
 export interface MainMenuPageResponse extends PageResponse {
 	isElevatedUser: boolean;
+}
+
+export interface TransactionPageResponse extends PageResponse {
 }
 
 export interface ProductDetailPageResponse extends PageResponse {
