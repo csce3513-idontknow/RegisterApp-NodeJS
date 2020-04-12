@@ -5,10 +5,10 @@
 // This code should be changed to the correct code, right now it serves the main menu route!
 import express from "express";
 import { RouteLookup } from "../controllers/lookups/routingLookup";
-import * as TransactionRouteController from "../controllers/transactionRouteController";
+// import * as TransactionRouteController from "../controllers/transactionRouteController";
 
 function transactionRoutes(server: express.Express) {
-	server.get(RouteLookup.Transaction, TransactionRouteController.start);
+	// server.get(RouteLookup.Transaction, TransactionRouteController.start);
 }
 
 module.exports.routes = transactionRoutes;

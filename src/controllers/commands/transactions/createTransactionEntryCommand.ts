@@ -5,7 +5,7 @@ import { CommandResponse, TransactionEntry } from "../../typeDefinitions";
 import { ResourceKey, Resources } from "../../../resourceLookup";
 
 export const execute = async (transactionId: string, productCode: string) => {
-    try{
+    try {
         const check = await queryTransactionById(transactionId);
         if (!check)
             return <CommandResponse<TransactionEntry>>{
@@ -19,7 +19,6 @@ export const execute = async (transactionId: string, productCode: string) => {
                 status: 404,
                 message: Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_ADD)
             };
-        
         const entry = await TransactionEntryModel.create({
             price: product.price,
             quantity: 1,
@@ -31,15 +30,15 @@ export const execute = async (transactionId: string, productCode: string) => {
             status: 201,
             data: <TransactionEntry>{
                 id: entry.id,
-                price:entry.price,
+                price: entry.price,
                 quantity: entry.quantity,
                 productId: entry.productId,
                 transactionId: entry.transactionId,
                 createdOn: entry.createdOn
             }
         };
-    }catch (error) {
-        throw <CommandResponse<TransactionEntry>>{
+    } catch (error) {
+        throw <CommandResponse<TransactionEntry>> {
             status: error.status ?? 500,
             message: error.message ?? Resources.getString(ResourceKey.TRANSACTION_UNABLE_TO_ADD)
         };
