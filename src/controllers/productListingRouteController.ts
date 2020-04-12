@@ -56,3 +56,31 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 			return processStartProductListingError(error, res);
 		});
 };
+
+export const productSearch = async(req: Request, res: Response): Promise<void> => {
+
+	if (Helper.handleInvalidSession(req, res)) {
+		return;
+	}
+
+	let isElevatedUser: boolean;
+
+	return ValidateActiveUser.execute((<Express.Session>req.session).id)
+	.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<CommandResponse<Product[]>> => {
+		isElevatedUser =
+			EmployeeHelper.isElevatedUser(
+				(<ActiveUser>activeUserCommandResponse.data).classification);
+
+		return ProductsQuery.queryMatches(req.body.searchString);
+	}).then((productsCommandResponse: CommandResponse<Product[]>): void => {
+		res.setHeader(
+			"Cache-Control",
+			"no-cache, max-age=0, must-revalidate, no-store");
+		res.
+		({products: productsCommandResponse.data});
+		return;
+
+	}).catch((error: any): void => {
+		return processStartProductListingError(error, res);
+	});
+};

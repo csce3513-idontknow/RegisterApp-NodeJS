@@ -14,3 +14,15 @@ export const query = async (): Promise<CommandResponse<Product[]>> => {
 			};
 		});
 };
+
+export const queryMatches = async(searchString: string): Promise<CommandResponse<Product[]>> => {
+	return ProductRepository.queryAllMatches(searchString)
+		.then((queriedProducts: ProductModel[]): CommandResponse<Product[]> => {
+			return <CommandResponse<Product[]>>{
+				status: 200,
+				data: queriedProducts.map<Product>((queriedProduct: ProductModel) => {
+					return ProductHelper.mapProductData(queriedProduct);
+				})
+			};
+		});
+};

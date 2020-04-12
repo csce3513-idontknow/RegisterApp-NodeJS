@@ -10,6 +10,7 @@ import * as transactionCreateCommmand from "./commands/transactions/transactionC
 import { ViewNameLookup, RouteLookup, QueryParameterLookup, ParameterLookup } from "./lookups/routingLookup";
 
 
+
 export const saveTransaction = async (req: Request, res: Response): Promise<void> => {
 	// should have argument employeeId of current employee, and maybe more arguments like the products
 	// This code is not finished!

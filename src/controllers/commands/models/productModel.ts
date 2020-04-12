@@ -76,3 +76,13 @@ export const queryAll = async (): Promise<ProductModel[]> => {
 		order: [ [ ProductFieldName.CREATED_ON, "ASC" ] ]
 	});
 };
+
+export const queryAllMatches = async (searchString: string): Promise<ProductModel []> => {
+	return ProductModel.findAll(<Sequelize.FindOptions>{
+		where: {
+			id: {
+				$like: `%${searchString}%`
+			}
+		}
+	});
+};

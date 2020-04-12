@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 
 	<link rel="stylesheet" type="text/css" href="/styles/master.css">
-
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script type="text/javascript" src="/scripts/master.js" defer></script>
 	<script type="text/javascript" src="/scripts/transaction.js" defer></script>
 </head>
@@ -26,7 +26,15 @@
 		</div>
 
 		<div class="mainMenuActionsWrapper">
-			
+			<div>
+					<button id="deleteButton" type="button" class="action">Confirm</button>
+					<button id="saveButton" type="button" class="action">Cancel</button>
+				
+					<br/>
+				
+					<input type="text" v-model="searchbox" placeholder="Type in name to search for"/>
+					<button v-on:click="search()"> search </button>
+			</div>
 		</div>
 	</div>
 
@@ -50,6 +58,30 @@
 		<img id="signOutImage" src="/images/Sign-Out.png" alt="Sign Out" class="footer" />
 	</div>
 		
+	<script>
+		const vueApp = new Vue({
+ 		 el: '#main',
+ 		 data: { 
+		 searchbox: "",
+  		 display: 'redbox' 
+		  },
+		methods: {
+    	 search() {
+			const searchRequest = {
+				searchString: this.searchbox
+			};
+
+			ajaxPost("/api/productSearch/", searchRequest, (callbackResponse) => {
+				saveActionElement.disabled = false;
+
+				if (isSuccessResponse(callbackResponse)) {
+					completeSaveAction(callbackResponse);
+				}
+			}); 
+    	  }
+		}
+	})
+	</script>
 </body>
 
 </html>
