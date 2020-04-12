@@ -6,12 +6,13 @@ import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCo
 import { PageResponse, CommandResponse, ActiveUser, TransactionPageResponse } from "./typeDefinitions";
 import { Request, Response } from "express";
 import { Resources, ResourceKey } from "../resourceLookup";
-import * as transactionCreateCommmand from "./commands/transactions/transactionCreateCommand";
+import * as transactionCreateCommmand from "./commands/transactions/transactionCreateCommands";
 import { ViewNameLookup, RouteLookup, QueryParameterLookup, ParameterLookup } from "./lookups/routingLookup";
 
 
 export const saveTransaction = async (req: Request, res: Response): Promise<void> => {
 	// should have argument employeeId of current employee, and maybe more arguments like the products
+	// This code is not finished!
 	transactionCreateCommmand.execute("00253");
 };
 

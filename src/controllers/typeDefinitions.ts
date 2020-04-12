@@ -25,6 +25,14 @@ export interface TransactionSaveRequest {
 	employeeId: string;
 	productIds: [];
 }
+export interface TransactionPageResponse {
+	transactionId: string;
+}
+
+export interface TransactionResponse {
+	transaction: any;
+}
+
 // End request object definitions
 
 // Response object definitions
@@ -58,6 +66,22 @@ export interface EmployeeType {
 	value: number;
 	label: string;
 }
+
+export interface Transaction {
+	id: string;
+	createdOn: Date;
+	employeeId: string;
+}
+
+export interface TransactionEntry {
+	price: number;
+	quantity: number;
+	productId: string;
+	transactionId: string;
+	id: string;
+	createdOn: Date;
+}
+
 // End response data object definitions
 
 // Page response data
