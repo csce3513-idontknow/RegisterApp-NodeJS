@@ -1,7 +1,6 @@
 import { TransactionModel } from "../models/transactionModel";
 import { CommandResponse, Transaction } from "../../typeDefinitions";
 import { ResourceKey, Resources } from "../../../resourceLookup";
-import { create } from "domain";
 
 export const execute = async (cashierId: string): Promise<CommandResponse<Transaction>> => {
     return TransactionModel.create(<TransactionModel>{
