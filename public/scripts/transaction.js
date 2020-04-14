@@ -22,7 +22,6 @@ const vueApp = new Vue({
         const unorderedListElement = document.getElementById("searchBody");
         const productIndex = getClickedListItemElement(event.target).rowIndex - 1;
         var productClicked = this.searchResults[productIndex];
-        console.log("HELLO");
         var quantity = prompt("Please enter amount to add to cart:");
         quantity = parseInt(quantity);
         if (quantity == null || quantity <= 0 || !Number.isInteger(quantity)) {
@@ -30,6 +29,11 @@ const vueApp = new Vue({
         } else {
             this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity});
         }
+    },
+    removeProductItem() {
+        const unorderedListElement = document.getElementById("cartBody");
+        const index = getClickedListItemElement(event.target).rowIndex - 1;
+        this.cart.splice(index, 1);
     }
   }
 })
@@ -49,6 +53,9 @@ function getClickedListItemElement(target) {
     }
     return clickedElement;
 }
+
+// STUFF BELOW THIS NOT NEEDED AND FOR REFERENCE ONLY
+// DO NOT DELETE
 
 // Listener for deleting items from cart
 document.addEventListener("DOMContentLoaded", () => {
