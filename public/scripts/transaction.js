@@ -41,41 +41,7 @@ document.getElementById("search")
         document.getElementById("searchSubmit").click();
     }
 });
-// Listener for deleting items from cart
-document.addEventListener("DOMContentLoaded", () => {
-    // document.getElementById("addListItemAction")
-        // .addEventListener("click", onAddListItemActionClicked);
-    const listItemElements = document.getElementById("cart")
-        .querySelectorAll("tbody");
-    for (let i = 0; i < listItemElements.length; i++) {
-        listItemElements[i].addEventListener("click", onListItemClicked);
-    }
-});
 
-function onListItemClicked(event) {
-    const unorderedListElement = document.getElementById("cartBody");
-    unorderedListElement.deleteRow(
-        getClickedListItemElement(event.target).rowIndex - 1);
-}
-function getClickedListItemElement(target) {
-    let clickedElement = target;
-    while (clickedElement.tagName !== "TR") {
-        clickedElement = clickedElement.parentElement;
-    }
-    return clickedElement;
-}
-function onAddListItemActionClicked() {
-    var table = document.getElementById("cartBody");
-    var x = document.getElementById("cartBody").rows.length + 1;
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = x;
-    cell2.innerHTML = "200";
-    cell3.innerHTML = "$15";
-    adjustSum();
-}
 function adjustSum() {
     var table = document.getElementById("cartBody");
     var sumCell = document.getElementById("sum");
