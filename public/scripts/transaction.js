@@ -32,8 +32,8 @@ const vueApp = new Vue({
     },
     removeProductItem() {
         const unorderedListElement = document.getElementById("cartBody");
-        unorderedListElement.deleteRow(
-            getClickedListItemElement(event.target).rowIndex - 1);
+        const index = getClickedListItemElement(event.target).rowIndex - 1;
+        this.cart.splice(index, 1);
     }
   }
 })
