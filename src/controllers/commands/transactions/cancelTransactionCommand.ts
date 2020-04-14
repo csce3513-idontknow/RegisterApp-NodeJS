@@ -29,8 +29,7 @@ export const execute = async (transactionId: string, cashierId: string) => {
                 id: transactionId
             }
         });
-        
-        return <CommandResponse<TransactionEntry>>{ 
+        return <CommandResponse<TransactionEntry>>{
             status: 204
         };
     } catch (error) {

@@ -1,42 +1,38 @@
-function getClickedListItemElement(target) {
-    let clickedElement = target;
-
-    while (clickedElement.tagName !== "LI") {
-        clickedElement = clickedElement.parentElement;
+// Search script from html doc
+const vueApp = new Vue({
+    el: '#main',
+    data: { 
+     searchbox: "",
+     display: 'redbox',
+     searchResults: [],
+     cart: [],
+    },
+  methods: {
+   search() {
+      if(this.searchbox != ""){
+          ajaxGet("/api/productSearch/" + this.searchbox + "/", (callbackResponse) => {
+          this.searchResults = callbackResponse.data
+          }); 
+      }
+      else{
+          alert("Please write something in the search box before searching")
+      }
+    },
+    onProductItemClicked() {
+        const unorderedListElement = document.getElementById("searchBody");
+        const productIndex = getClickedListItemElement(event.target).rowIndex - 1;
+        var productClicked = this.searchResults[productIndex];
+        console.log("HELLO");
+        var quantity = prompt("Please enter amount to add to cart:");
+        quantity = parseInt(quantity);
+        if (quantity == null || quantity <= 0 || !Number.isInteger(quantity)) {
+            alert("Please enter an amount greater than 0.");
+        } else {
+            this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity});
+        }
     }
-
-    return clickedElement;
-}
-
-function onListItemClicked(event) {
-    const unorderedListElement = document.getElementById("productsListing");
-
-    unorderedListElement.removeChild(
-        getClickedListItemElement(event.target));
-}
-
-function onAddListItemActionClicked() {
-    const unorderedListElement = document.getElementById("productsListing");
-    const nextEntryId = (unorderedListElement.childElementCount + 1).toString();
-
-    const listItemElement = document.createElement("li");
-    listItemElement.addEventListener("click", onListItemClicked);
-
-    const lookupCodeDisplayElement = document.createElement("span");
-    lookupCodeDisplayElement.innerHTML = ("Product Lookup Code " + nextEntryId);
-    lookupCodeDisplayElement.classList.add("lookupCodeDisplay");
-    listItemElement.appendChild(lookupCodeDisplayElement);
-
-    listItemElement.appendChild(
-        document.createElement("br"));
-
-    const entryIdDisplayElement = document.createElement("span");
-    entryIdDisplayElement.innerHTML = ("\u00A0\u00A0" + nextEntryId);
-    listItemElement.appendChild(entryIdDisplayElement);
-
-    unorderedListElement.appendChild(listItemElement);
-}
-
+  }
+})
 
 document.getElementById("search")
     .addEventListener("keyup", function(event) {
@@ -45,18 +41,48 @@ document.getElementById("search")
         document.getElementById("searchSubmit").click();
     }
 });
-
+// Listener for deleting items from cart
 document.addEventListener("DOMContentLoaded", () => {
-    const el = document.getElementById("addListItemAction");
-    if(el) {
-        el.addEventListener("click", onAddListItemActionClicked);
+    // document.getElementById("addListItemAction")
+        // .addEventListener("click", onAddListItemActionClicked);
+    const listItemElements = document.getElementById("cart")
+        .querySelectorAll("tbody");
+    for (let i = 0; i < listItemElements.length; i++) {
+        listItemElements[i].addEventListener("click", onListItemClicked);
     }
-    const listItemElements = document.getElementById("productsListing");
-    if (listItemElements) {
-        listItemElements.querySelectorAll("li");
-        for (let i = 0; i < listItemElements.length; i++) {
-            listItemElements[i].addEventListener("click", onListItemClicked);
-        }
-    }
-    
 });
+
+function onListItemClicked(event) {
+    const unorderedListElement = document.getElementById("cartBody");
+    unorderedListElement.deleteRow(
+        getClickedListItemElement(event.target).rowIndex - 1);
+}
+function getClickedListItemElement(target) {
+    let clickedElement = target;
+    while (clickedElement.tagName !== "TR") {
+        clickedElement = clickedElement.parentElement;
+    }
+    return clickedElement;
+}
+function onAddListItemActionClicked() {
+    var table = document.getElementById("cartBody");
+    var x = document.getElementById("cartBody").rows.length + 1;
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = x;
+    cell2.innerHTML = "200";
+    cell3.innerHTML = "$15";
+    adjustSum();
+}
+function adjustSum() {
+    var table = document.getElementById("cartBody");
+    var sumCell = document.getElementById("sum");
+    var total = 0;
+    for (var r = 0, n = table.rows.length; r < n; r++) {
+        total = total + parseInt(table.rows[r].cells[2].innerHTML.replace(/\$|,/g, ''));
+    }
+    total = "$" + total.toString();
+    sumCell.innerHTML = total;
+}

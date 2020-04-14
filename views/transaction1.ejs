@@ -50,11 +50,13 @@
 								  <th>Price in cents</th>
 								  <th>Quantity in Stock</th>
 								</tr>
-								<tr v-for="product in searchResults" :key="product.id">
-								  <td>{{product.lookupCode}}</td>
-								  <td>{{product.price}}</td>
-								  <td>{{product.count}}</td>
-								</tr>
+								<tbody id="searchBody">
+									<tr v-for="product in searchResults" :key="product.id" v-on:click="onProductItemClicked()">
+										<td>{{product.lookupCode}}</td>
+										<td>{{product.price}}</td>
+										<td>{{product.count}}</td>
+									</tr>
+								</tbody>
 						
 							  </table>
 
@@ -79,12 +81,21 @@
 								  <th>Price pr. product in cents</th>
 								  <th>Quantity in cart</th>
 								</tr>
+								<tbody id="cartBody">
 								<tr v-for="product in cart" :key="product.id">
 								  <td>{{product.lookupCode}}</td>
 								  <td>{{product.price}}</td>
 								  <td>{{product.count}}</td>
 								  <td><button>remove from cart</button></td>
 								</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td>Sum:</td>
+										<td></td>
+										<td id="sum">$0</td>
+									</tr>
+								</tfoot>
 						
 							  </table>
 							
@@ -120,29 +131,6 @@
 	</div>
 		
 	<script>
-		const vueApp = new Vue({
- 		 el: '#main',
- 		 data: { 
-		   searchbox: "",
-		   display: 'redbox',
-		   searchResults: [],
-		   cart: [],
-		  },
-		methods: {
-    	 search() {
-			if(this.searchbox != ""){
-				ajaxGet("/api/productSearch/" + this.searchbox + "/", (callbackResponse) => {
-				this.searchResults = callbackResponse.data
-				}); 
-			}
-			else{
-				alert("Please write something in the search box before searching")
-			}
-
-			
-    	  }
-		}
-	})
 	</script>
 </body>
 
