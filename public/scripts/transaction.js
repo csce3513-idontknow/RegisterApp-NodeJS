@@ -34,6 +34,16 @@ const vueApp = new Vue({
         const unorderedListElement = document.getElementById("cartBody");
         const index = getClickedListItemElement(event.target).rowIndex - 1;
         this.cart.splice(index, 1);
+    },
+    adjustSum() {
+        var table = document.getElementById("cartBody");
+        var sumCell = document.getElementById("sum");
+        var total = 0;
+        for (var r = 0, n = table.rows.length; r < n; r++) {
+            total = total + parseInt(table.rows[r].cells[1].innerHTML.replace(/\$|,/g, ''));
+        }
+        total = "$" + total.toString();
+        sumCell.innerHTML = total;
     }
   }
 })
@@ -74,13 +84,3 @@ function onListItemClicked(event) {
         getClickedListItemElement(event.target).rowIndex - 1);
 }
 
-function adjustSum() {
-    var table = document.getElementById("cartBody");
-    var sumCell = document.getElementById("sum");
-    var total = 0;
-    for (var r = 0, n = table.rows.length; r < n; r++) {
-        total = total + parseInt(table.rows[r].cells[2].innerHTML.replace(/\$|,/g, ''));
-    }
-    total = "$" + total.toString();
-    sumCell.innerHTML = total;
-}
