@@ -14,3 +14,4 @@ export const query = async (): Promise<CommandResponse<Product[]>> => {
 			};
 		});
 };
+ 
