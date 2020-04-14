@@ -63,7 +63,8 @@
  		 el: '#main',
  		 data: { 
 		 searchbox: "",
-  		 display: 'redbox' 
+		   display: 'redbox',
+		   searchResults: [], 
 		  },
 		methods: {
     	 search() {
@@ -71,12 +72,9 @@
 				searchString: this.searchbox
 			};
 
-			ajaxPost("/api/productSearch/", searchRequest, (callbackResponse) => {
-				saveActionElement.disabled = false;
-
-				if (isSuccessResponse(callbackResponse)) {
-					completeSaveAction(callbackResponse);
-				}
+			ajaxGet("/api/productSearch/" + this.searchbox + "/", (callbackResponse) => {
+				
+				this.searchResults = callbackResponse.data;
 			}); 
     	  }
 		}

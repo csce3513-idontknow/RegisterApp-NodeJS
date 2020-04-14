@@ -78,10 +78,13 @@ export const queryAll = async (): Promise<ProductModel[]> => {
 };
 
 export const queryAllMatches = async (searchString: string): Promise<ProductModel []> => {
+	const sqlString = `%${searchString}%`;
+	const Op = Sequelize.Op;
+
 	return ProductModel.findAll(<Sequelize.FindOptions>{
 		where: {
-			id: {
-				$like: `%${searchString}%`
+			lookupCode: {
+				[Op.like]: sqlString
 			}
 		}
 	});

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ViewNameLookup } from "./lookups/routingLookup";
+import { ViewNameLookup, ParameterLookup } from "./lookups/routingLookup";
 import * as Helper from "./Helpers/routeControllerHelper";
 import { Resources, ResourceKey } from "../resourceLookup";
 import * as ProductsQuery from "./commands/products/productsQuery";
@@ -63,22 +63,13 @@ export const productSearch = async(req: Request, res: Response): Promise<void> =
 		return;
 	}
 
-	let isElevatedUser: boolean;
+	ProductsQuery.queryMatches(req.params[ParameterLookup.ProductSearchString])// req.body.searchString)
+	.then((searchResults): void => {
 
-	return ValidateActiveUser.execute((<Express.Session>req.session).id)
-	.then((activeUserCommandResponse: CommandResponse<ActiveUser>): Promise<CommandResponse<Product[]>> => {
-		isElevatedUser =
-			EmployeeHelper.isElevatedUser(
-				(<ActiveUser>activeUserCommandResponse.data).classification);
-
-		return ProductsQuery.queryMatches(req.body.searchString);
-	}).then((productsCommandResponse: CommandResponse<Product[]>): void => {
 		res.setHeader(
 			"Cache-Control",
 			"no-cache, max-age=0, must-revalidate, no-store");
-		res.
-		({products: productsCommandResponse.data});
-		return;
+		res.send(JSON.stringify(searchResults));
 
 	}).catch((error: any): void => {
 		return processStartProductListingError(error, res);

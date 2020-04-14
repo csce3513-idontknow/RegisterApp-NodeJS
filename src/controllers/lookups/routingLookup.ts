@@ -1,6 +1,7 @@
 export enum ParameterLookup {
 	ProductId = "productId",
-	EmployeeId = "employeeId"
+	EmployeeId = "employeeId",
+	ProductSearchString = "productSearchString"
 }
 
 export enum QueryParameterLookup {
@@ -28,6 +29,7 @@ export enum RouteLookup {
 	ProductSearch = "/productSearch",
 	Transaction = "/transaction",
 	// Page routing - parameters
+	ProductSearchString = "/:productSearchString",
 	ProductIdParameter = "/:productId",
 	EmployeeIdParameter = "/:employeeId",
 	TransactionIdParameter = "/:transactionId",

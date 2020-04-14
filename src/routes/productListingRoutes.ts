@@ -4,8 +4,6 @@ import * as ProductListingRouteController from "../controllers/productListingRou
 
 function productListingRoutes(server: express.Express) {
 	server.get(RouteLookup.ProductListing, ProductListingRouteController.start);
-
-	server.post(RouteLookup.API + RouteLookup.ProductSearch, ProductListingRouteController.productSearch);
 }
 
 module.exports.routes = productListingRoutes;
