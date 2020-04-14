@@ -1,6 +1,7 @@
 export enum ParameterLookup {
 	ProductId = "productId",
-	EmployeeId = "employeeId"
+	EmployeeId = "employeeId",
+	ProductSearchString = "productSearchString"
 }
 
 export enum QueryParameterLookup {
@@ -13,7 +14,8 @@ export enum ViewNameLookup {
 	MainMenu = "mainMenu",
 	ProductDetail = "productDetail",
 	EmployeeDetail = "employeeDetail",
-	ProductListing = "productListing"
+	ProductListing = "productListing",
+	Transaction = "transaction1"
 }
 
 export enum RouteLookup {
@@ -24,15 +26,15 @@ export enum RouteLookup {
 	ProductDetail = "/productDetail",
 	EmployeeDetail = "/employeeDetail",
 	ProductListing = "/productListing",
+	ProductSearch = "/productSearch",
 	Transaction = "/transaction",
-
 	// Page routing - parameters
+	ProductSearchString = "/:productSearchString",
 	ProductIdParameter = "/:productId",
 	EmployeeIdParameter = "/:employeeId",
+	TransactionIdParameter = "/:transactionId",
 	// End page routing - parameters
 	// End page routing
-
 	// API routing
 	API = "/api",
-	// End API routing
 }

@@ -22,6 +22,10 @@ export interface EmployeeSaveRequest {
 	isInitialEmployee?: boolean;
 }
 
+export interface TransactionSaveRequest {
+	employeeId: string;
+	productIds: [];
+}
 export interface TransactionPageResponse {
 	transactionId: string;
 }
@@ -37,8 +41,8 @@ export interface TransactionResponse {
 export interface Product {
 	id: string;
 	count: number;
-	createdOn: string;
 	price: number;
+	createdOn: string;
 	lookupCode: string;
 }
 
@@ -93,6 +97,9 @@ export interface SignInPageResponse extends PageResponse {
 
 export interface MainMenuPageResponse extends PageResponse {
 	isElevatedUser: boolean;
+}
+
+export interface TransactionPageResponse extends PageResponse {
 }
 
 export interface ProductDetailPageResponse extends PageResponse {

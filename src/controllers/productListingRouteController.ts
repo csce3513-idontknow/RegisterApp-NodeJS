@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ViewNameLookup } from "./lookups/routingLookup";
+import { ViewNameLookup, ParameterLookup } from "./lookups/routingLookup";
 import * as Helper from "./Helpers/routeControllerHelper";
 import { Resources, ResourceKey } from "../resourceLookup";
 import * as ProductsQuery from "./commands/products/productsQuery";
@@ -55,4 +55,23 @@ export const start = async (req: Request, res: Response): Promise<void> => {
 		}).catch((error: any): void => {
 			return processStartProductListingError(error, res);
 		});
+};
+
+export const productSearch = async(req: Request, res: Response): Promise<void> => {
+
+	if (Helper.handleInvalidSession(req, res)) {
+		return;
+	}
+
+	ProductsQuery.queryMatches(req.params[ParameterLookup.ProductSearchString])// req.body.searchString)
+	.then((searchResults): void => {
+
+		res.setHeader(
+			"Cache-Control",
+			"no-cache, max-age=0, must-revalidate, no-store");
+		res.send(JSON.stringify(searchResults));
+
+	}).catch((error: any): void => {
+		return processStartProductListingError(error, res);
+	});
 };

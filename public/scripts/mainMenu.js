@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 	getStartTransactionActionElement().addEventListener(
 		"click",
-		() => { displayError("Functionality has not yet been implemented."); });
+		() => { window.location.assign("/transaction"); });
+
 
 	getViewProductsActionElement().addEventListener(
 		"click",
@@ -19,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		"click",
 		() => { displayError("Functionality has not yet been implemented."); });
 });
+
+
 
 // Getters and setters
 function getViewProductsActionElement() {
