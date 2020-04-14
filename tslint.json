@@ -54,7 +54,7 @@
         "no-eval": true,
         "no-duplicate-variable": true,
         "no-internal-module": true,
-        "no-trailing-whitespace": true,
+        "no-trailing-whitespace": false,
         "prefer-const": true,
         "jsdoc-format": true
     }
