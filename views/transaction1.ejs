@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 
 	<link rel="stylesheet" type="text/css" href="/styles/master.css">
+	<link rel="stylesheet" type="text/css" href="/styles/transaction.css">
+
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script type="text/javascript" src="/scripts/master.js" defer></script>
 	<script type="text/javascript" src="/scripts/transaction.js" defer></script>
@@ -27,13 +29,71 @@
 
 		<div class="mainMenuActionsWrapper">
 			<div>
-					<button id="deleteButton" type="button" class="action">Confirm</button>
-					<button id="saveButton" type="button" class="action">Cancel</button>
+
+					<div class="row">
+						<div class="column">
+							<h2>Search for products</h2>
+							<a>Add products to cart by clicking them</a>
+							<br>
+							<br>
+
+							<div class="searchField">
+								<input  class="searchBar" type="text" v-model="searchbox" placeholder="Type in name to search for"/>
+								<button class="searchButton" v-on:click="search()"> search </button>
+							</div>
+							
+
+							<table  id="productSearchResults">
+								<tr>
+								  <th>Lookup Code</th>
+								  <th>Price in cents</th>
+								  <th>Quantity in Stock</th>
+								</tr>
+								<tr v-for="product in searchResults" :key="product.id">
+								  <td>{{product.lookupCode}}</td>
+								  <td>{{product.price}}</td>
+								  <td>{{product.count}}</td>
+								</tr>
+						
+							  </table>
+
+						</div>
+
+						<div class="column">
+							<h2>Cart</h2>
+							<a>Click below to confirm or cancel transaction</a>
+
+							<br>
+							<br>
+							
+							<div class="searchField">
+								<button id="deleteButton" type="button" class="searchButton">Confirm</button>
+								<button id="saveButton" type="button" class="searchButton">Cancel</button>
+							</div>
+
+							<table  id="cart">
+								
+								<tr>
+								  <th>Lookup Code</th>
+								  <th>Price pr. product in cents</th>
+								  <th>Quantity in cart</th>
+								</tr>
+								<tr v-for="product in cart" :key="product.id">
+								  <td>{{product.lookupCode}}</td>
+								  <td>{{product.price}}</td>
+								  <td>{{product.count}}</td>
+								  <td><button>remove from cart</button></td>
+								</tr>
+						
+							  </table>
+							
+						</div>
+
+					</div>
+
+		
 				
-					<br/>
-				
-					<input type="text" v-model="searchbox" placeholder="Type in name to search for"/>
-					<button v-on:click="search()"> search </button>
+					
 			</div>
 		</div>
 	</div>
@@ -62,20 +122,23 @@
 		const vueApp = new Vue({
  		 el: '#main',
  		 data: { 
-		 searchbox: "",
+		   searchbox: "",
 		   display: 'redbox',
-		   searchResults: [], 
+		   searchResults: [],
+		   cart: [],
 		  },
 		methods: {
     	 search() {
-			const searchRequest = {
-				searchString: this.searchbox
-			};
+			if(this.searchbox != ""){
+				ajaxGet("/api/productSearch/" + this.searchbox + "/", (callbackResponse) => {
+				this.searchResults = callbackResponse.data
+				}); 
+			}
+			else{
+				alert("Please write something in the search box before searching")
+			}
 
-			ajaxGet("/api/productSearch/" + this.searchbox + "/", (callbackResponse) => {
-				
-				this.searchResults = callbackResponse.data;
-			}); 
+			
     	  }
 		}
 	})
