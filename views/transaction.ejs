@@ -3,64 +3,6 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
 ​
-    <style type="text/css">
-div.main {
-	padding-top: 0px;
-	text-align: center
-}
-​
-div.productsWrapper {
-	display: inline-block;
-}
-​
-ul.products {
-	margin: 0 0 2em 0;
-	list-style-type: none;
-	padding: 0;
-	width: 15em;
-}
-​
-ul.products > li {
-	cursor: pointer;
-	background-color: #EEE;
-	margin: .5em;
-	padding: .3em;
-	height: 2.5em;
-	border-radius: 4px;
-	text-align: left;
-}
-​
-ul.products > li:hover {
-	color: #607D8B;
-	background-color: #DDD;
-	left: .1em;
-}
-​
-button.action {
-    margin: 0;
-    border: 0;
-    font-size: 18px;
-    width: 200px;
-    height: 50px;
-    text-align: center;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-user-select: none;
-    color: #000000;
-    border: solid;
-    padding: 10px;
-    background-color: #FFFFFF;
-    cursor: default;
-	text-decoration: none;
-}
-​
-button.action:hover {
-    cursor: pointer;
-    color: #ffffff;
-    background-color: #000000;
-}
-    </style>
 </head>
 <body>
     <div id="main" class="main">
@@ -78,58 +20,6 @@ button.action:hover {
             </ul>
         </div>
     </div>
-​
-    <script type="text/javascript">
-function getClickedListItemElement(target) {
-    let clickedElement = target;
-​
-    while (clickedElement.tagName !== "LI") {
-        clickedElement = clickedElement.parentElement;
-    }
-​
-    return clickedElement;
-}
-​
-function onListItemClicked(event) {
-    const unorderedListElement = document.getElementById("productsListing");
-​
-    unorderedListElement.removeChild(
-        getClickedListItemElement(event.target));
-}
-​
-function onAddListItemActionClicked() {
-    const unorderedListElement = document.getElementById("productsListing");
-    const nextEntryId = (unorderedListElement.childElementCount + 1).toString();
-​
-    const listItemElement = document.createElement("li");
-    listItemElement.addEventListener("click", onListItemClicked);
-​
-    const lookupCodeDisplayElement = document.createElement("span");
-    lookupCodeDisplayElement.innerHTML = ("Product Lookup Code " + nextEntryId);
-    lookupCodeDisplayElement.classList.add("lookupCodeDisplay");
-    listItemElement.appendChild(lookupCodeDisplayElement);
-​
-    listItemElement.appendChild(
-        document.createElement("br"));
-​
-    const entryIdDisplayElement = document.createElement("span");
-    entryIdDisplayElement.innerHTML = ("\u00A0\u00A0" + nextEntryId);
-    listItemElement.appendChild(entryIdDisplayElement);
-​
-    unorderedListElement.appendChild(listItemElement);
-}
-​
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("addListItemAction")
-        .addEventListener("click", onAddListItemActionClicked);
-​
-    const listItemElements = document.getElementById("productsListing")
-        .querySelectorAll("li");
-    for (let i = 0; i < listItemElements.length; i++) {
-        listItemElements[i].addEventListener("click", onListItemClicked);
-    }
-});
-    </script>
 </body>
 
 
