@@ -48,12 +48,14 @@
 								  <th>Lookup Code</th>
 								  <th>Price in cents</th>
 								  <th>Quantity in Stock</th>
+								  <th>Add to Cart</th>
 								</tr>
 								<tbody id="searchBody">
 									<tr v-for="product in searchResults" :key="product.id" v-on:click="onProductItemClicked()">
 										<td>{{product.lookupCode}}</td>
 										<td>{{product.price}}</td>
 										<td>{{product.count}}</td>
+										<td><button id="addToCart">+</button></td>
 									</tr>
 								</tbody>
 						
@@ -79,13 +81,14 @@
 								  <th>Lookup Code</th>
 								  <th>Price pr. product in cents</th>
 								  <th>Quantity in cart</th>
+								  <th>Remove from Cart</th>
 								</tr>
 								<tbody id="cartBody">
 								<tr v-for="product in cart" :key="product.id">
 								  <td>{{product.lookupCode}}</td>
 								  <td>{{product.price}}</td>
 								  <td>{{product.count}}</td>
-								  <td><button>remove from cart</button></td>
+								  <td><button>-</button></td>
 								</tr>
 								</tbody>
 								<tfoot>
