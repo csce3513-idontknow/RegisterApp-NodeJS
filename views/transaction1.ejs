@@ -51,11 +51,11 @@
 								  <th>Add to Cart</th>
 								</tr>
 								<tbody id="searchBody">
-									<tr v-for="product in searchResults" :key="product.id" v-on:click="onProductItemClicked()">
+									<tr v-for="product in searchResults" :key="product.id">
 										<td>{{product.lookupCode}}</td>
-										<td>{{product.price}}</td>
+										<td><span>$</span>{{product.price}}</td>
 										<td>{{product.count}}</td>
-										<td><button id="addToCart">+</button></td>
+										<td><button id="addToCart" v-on:click="onProductItemClicked()">+</button></td>
 									</tr>
 								</tbody>
 						
@@ -86,7 +86,7 @@
 								<tbody id="cartBody">
 								<tr v-for="product in cart" :key="product.id">
 								  <td>{{product.lookupCode}}</td>
-								  <td>{{product.price}}</td>
+								  <td><span>$</span>{{product.price}}</td>
 								  <td>{{product.count}}</td>
 								  <td><button>-</button></td>
 								</tr>
