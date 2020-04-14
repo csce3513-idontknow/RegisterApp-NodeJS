@@ -8,6 +8,11 @@ import { Request, Response } from "express";
 import { Resources, ResourceKey } from "../resourceLookup";
 import * as transactionCreateCommmand from "./commands/transactions/transactionCreateCommands";
 import { ViewNameLookup, RouteLookup, QueryParameterLookup, ParameterLookup } from "./lookups/routingLookup";
+import { TransactionModel, queryById as queryTransactionById } from "../controllers/commands/models/transactionModel";
+import { TransactionEntryModel, queryById as queryTransactionEntryById, queryByTransactionIdAndProductId } 
+		from "../controllers/commands/models/transactionEntryModel";
+import { execute as validateActiveUserCommand } from "./commands/activeUsers/validateActiveUserCommand";
+import { execute as cancelTransactionCommand } from "./commands/transactions/cancelTransactionCommand";
 
 
 
@@ -15,6 +20,19 @@ export const saveTransaction = async (req: Request, res: Response): Promise<void
 	// should have argument employeeId of current employee, and maybe more arguments like the products
 	// This code is not finished!
 	transactionCreateCommmand.execute("00253");
+};
+
+export const cancel = async (req: Request, res: Response) => {
+	if (Helper.handleInvalidApiSession(req, res))
+		return;
+	try {
+		const user = (await validateActiveUserCommand((<Express.Session>req.session).id)).data!;
+		const response = await cancelTransactionCommand(req.params.transactionId, user.employeeId);
+		
+		res.status(response.status).send(response.message ? { errorMessage: response.message } : response.data);
+	} catch (error) {
+		return Helper.processApiError(error, res);
+	}
 };
 
 export const start = async (req: Request, res: Response): Promise<void> => {
