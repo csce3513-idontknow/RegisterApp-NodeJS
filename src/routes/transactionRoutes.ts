@@ -17,6 +17,7 @@ function transactionRoutes(server: express.Express) {
 
 	server.get(RouteLookup.API + RouteLookup.ProductSearch + RouteLookup.ProductSearchString, ProductListingRouteController.productSearch);
 
+	server.delete(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + transactionRouteController.cancel);
 
 }
 
