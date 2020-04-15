@@ -1,6 +1,5 @@
-import { TransactionEntryModel, queryByTransactionId } from "../models/transactionEntryModel";
-import { ProductModel, queryByLookupCode } from "../models/productModel";
-import { queryById as queryTransactionById, TransactionModel } from "../models/transactionModel";
+import { TransactionEntryModel } from "../models/transactionEntryModel";
+import { queryById as queryTransactionById } from "../models/transactionModel";
 import { CommandResponse, TransactionEntry } from "../../typeDefinitions";
 import { ResourceKey, Resources } from "../../../resourceLookup";
 
