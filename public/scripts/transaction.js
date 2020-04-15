@@ -64,6 +64,18 @@ function getClickedListItemElement(target) {
     return clickedElement;
 }
 
+function cancel(){
+    ajaxDelete('/api/transaction/${transactionId}', response => {
+        if (isSuccessResponse(response)) {
+            window.location.replace('/mainMenu');
+        }
+    });
+}
+
+function getCancelButton() {
+    return document.getElementById('cancelButton');
+}
+
 // STUFF BELOW THIS NOT NEEDED AND FOR REFERENCE ONLY
 // DO NOT DELETE
 
