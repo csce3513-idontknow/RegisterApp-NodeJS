@@ -28,7 +28,14 @@ const vueApp = new Vue({
             alert("Please enter an amount greater than 0.");
         } else {
             this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity});
+            
+            var count = 0;
+            count = parseInt(unorderedListElement.rows[productIndex].cells[2].innerHTML.toString()) - quantity;
+            count = count.toString();
+            var countCell = document.getElementById("count");
+            countCell.innerHTML = count;
         }
+       
     },
     removeProductItem() {
         const unorderedListElement = document.getElementById("cartBody");

@@ -54,7 +54,7 @@
 									<tr v-for="product in searchResults" :key="product.id">
 										<td>{{product.lookupCode}}</td>
 										<td>{{product.price}}</td>
-										<td>{{product.count}}</td>
+										<td id="count">{{product.count}}</td>
 										<td><button id="addToCart" v-on:click="onProductItemClicked()">+</button></td>
 									</tr>
 								</tbody>
