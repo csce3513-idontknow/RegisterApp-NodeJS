@@ -51,6 +51,13 @@ const vueApp = new Vue({
         }
         total = "$" + total.toString();
         sumCell.innerHTML = total;
+    },
+    cancel() {
+        ajaxDelete('/api/transaction/${transactionId}', response => {
+            if (isSuccessResponse(response)) {
+                window.location.replace('/mainMenu');
+            }
+        });
     }
   }
 })
@@ -69,6 +76,10 @@ function getClickedListItemElement(target) {
         clickedElement = clickedElement.parentElement;
     }
     return clickedElement;
+}
+
+function getCancelButton() {
+    return document.getElementById('cancelButton');
 }
 
 // STUFF BELOW THIS NOT NEEDED AND FOR REFERENCE ONLY
