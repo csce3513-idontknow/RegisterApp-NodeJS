@@ -6,6 +6,8 @@ const vueApp = new Vue({
      display: 'redbox',
      searchResults: [],
      cart: [],
+     totalPrice: 0,
+     totalItems: 0,
     },
   methods: {
    search() {
@@ -27,37 +29,56 @@ const vueApp = new Vue({
         if (quantity == null || quantity <= 0 || !Number.isInteger(quantity)) {
             alert("Please enter an amount greater than 0.");
         } else {
-            this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity});
+            this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity, "ppi": productClicked.price});
             
-            var count = 0;
+
+            // Stuff to update stock
+            /* var count = 0;
             count = parseInt(unorderedListElement.rows[productIndex].cells[2].innerHTML.toString()) - quantity;
             count = count.toString();
             var countCell = document.getElementById("count");
-            countCell.innerHTML = count;
+            countCell.innerHTML = count; */
         }
-       
+        this.adjustTotals();
     },
     removeProductItem() {
         const unorderedListElement = document.getElementById("cartBody");
         const index = getClickedListItemElement(event.target).rowIndex - 1;
         this.cart.splice(index, 1);
+        this.adjustTotals();
     },
-    adjustSum() {
+    adjustTotals() {
         var table = document.getElementById("cartBody");
         var sumCell = document.getElementById("sum");
-        var total = 0;
-        for (var r = 0, n = table.rows.length; r < n; r++) {
-            total = total + parseInt(table.rows[r].cells[1].innerHTML.replace(/\$|,/g, ''));
+        var totalDollars = 0;
+        var totalQuantity = 0;
+        for (var i = 0; i < this.cart.length; i++) {
+            totalDollars = totalDollars + this.cart[i].price;
+            totalQuantity = totalQuantity + this.cart[i].count;
         }
-        total = "$" + total.toString();
-        sumCell.innerHTML = total;
+        this.totalPrice = totalDollars;
+        this.totalItems = totalQuantity;
+    },
+    changeQuantity() {
+        const cartElement = document.getElementById("cartBody");
+        const productIndex = getClickedListItemElement(event.target).rowIndex - 1;
+        var productClicked = this.cart[productIndex];
+        var quantity = prompt("Please enter new quantity:");
+        quantity = parseInt(quantity);
+        if (quantity == null || quantity <= 0 || !Number.isInteger(quantity)) {
+            alert("Please enter an amount greater than 0.");
+        } else {
+            this.cart[productIndex].count = quantity;
+            this.cart[productIndex].price = quantity * this.cart[productIndex].ppi;
+        }
+        this.adjustTotals();
     },
     cancel() {
-        ajaxDelete('/api/transaction/${transactionId}', response => {
-            if (isSuccessResponse(response)) {
+        // ajaxDelete('/api/transaction/$' + this.transactionId, response => {
+            console.log("DELETE");
+            // if (isSuccessResponse(response)) {
                 window.location.replace('/mainMenu');
-            }
-        });
+            // }
     }
   }
 })

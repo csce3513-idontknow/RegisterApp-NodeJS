@@ -53,14 +53,12 @@
 								<tbody id="searchBody">
 									<tr v-for="product in searchResults" :key="product.id">
 										<td>{{product.lookupCode}}</td>
-										<td>{{product.price}}</td>
+										<td><span>$</span>{{product.price}}</td>
 										<td id="count">{{product.count}}</td>
 										<td><button id="addToCart" v-on:click="onProductItemClicked()">+</button></td>
 									</tr>
 								</tbody>
-						
 							  </table>
-
 						</div>
 
 						<div class="column">
@@ -79,23 +77,23 @@
 								
 								<tr>
 								  <th>Lookup Code</th>
-								  <th>Price pr. product in cents</th>
+								  <th>Price per product in cents</th>
 								  <th>Quantity in cart</th>
 								  <th>Remove from Cart</th>
 								</tr>
 								<tbody id="cartBody">
 									<tr v-for="product in cart" :key="product.id">
 										<td>{{product.lookupCode}}</td>
-										<td>{{product.price}}</td>
-										<td>{{product.count}}</td>
+										<td><span>$</span>{{product.price}}</td>
+										<td v-on:click="changeQuantity()">{{product.count}}</td>
 										<td><button v-on:click="removeProductItem()">-</button></td>
 									</tr>
 								</tbody>
 								<tfoot>
 									<tr>
-										<td>Sum:</td>
-										<td id="sum">$0</td>
-										<td><button id="updateSum" v-on:click="adjustSum()">Update</button></td>
+										<td>Totals:</td>
+										<td id="sum"><span>$</span>{{totalPrice}}</td>
+										<td>{{totalItems}}</td>
 										<td></td>
 									</tr>
 								</tfoot>
