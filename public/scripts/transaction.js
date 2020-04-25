@@ -27,8 +27,12 @@ const vueApp = new Vue({
         var quantity = prompt("Please enter amount to add to cart:");
         quantity = parseInt(quantity);
         if (quantity == null || quantity <= 0 || !Number.isInteger(quantity)) {
-            alert("Please enter an amount greater than 0.");
-        } else {
+            alert("Please enter an amount greater than 0."); }
+        else if (quantity > productClicked.count)
+        {
+            alert("Not enough products in stock.");
+        }
+         else {
             this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity, "ppi": productClicked.price});
             
 
