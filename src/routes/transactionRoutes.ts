@@ -12,12 +12,12 @@ import * as ProductListingRouteController from "../controllers/productListingRou
 function transactionRoutes(server: express.Express) {
 	server.get(RouteLookup.Transaction, transactionRouteController.start);
 
-	server.post((RouteLookup.API + RouteLookup.Transaction),
-		transactionRouteController.saveTransaction);
+	server.post((RouteLookup.API + RouteLookup.Transaction), transactionRouteController.saveTransaction);
 
 	server.get(RouteLookup.API + RouteLookup.ProductSearch + RouteLookup.ProductSearchString, ProductListingRouteController.productSearch);
 
 	server.delete(RouteLookup.API + RouteLookup.Transaction + RouteLookup.TransactionIdParameter + transactionRouteController.cancel);
+
 
 }
 

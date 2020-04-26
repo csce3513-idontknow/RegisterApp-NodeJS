@@ -136,7 +136,7 @@ export interface EmployeeSaveResponse extends ApiResponse {
 // End response object definitions
 
 export interface CommandResponse<T> {
-	data?: T;
+	data: T;
 	status: number;
 	message?: string;
 }

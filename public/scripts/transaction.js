@@ -3,7 +3,6 @@ const vueApp = new Vue({
     el: '#main',
     data: { 
      searchbox: "",
-     display: 'redbox',
      searchResults: [],
      cart: [],
      totalPrice: 0,
@@ -90,7 +89,16 @@ const vueApp = new Vue({
             // }
     },
     confirm() {
-        
+
+        saveTransactionRequest = {
+            products: this.cart,
+            totalPrice: this.totalPrice,
+            totalItems: this.totalItems,
+        } 
+
+        ajaxPost("/api/transaction/", saveTransactionRequest, (callbackResponse) => {
+            this.searchResults = callbackResponse.data
+        }); 
     }
   }
 })

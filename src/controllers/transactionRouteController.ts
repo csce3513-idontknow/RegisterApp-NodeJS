@@ -19,7 +19,15 @@ import { execute as cancelTransactionCommand } from "./commands/transactions/can
 export const saveTransaction = async (req: Request, res: Response): Promise<void> => {
 	// should have argument employeeId of current employee, and maybe more arguments like the products
 	// This code is not finished!
-	transactionCreateCommmand.execute("00253");
+	let employeeId = "";
+
+	await ValidateActiveUser.execute((<Express.Session>req.session).id)
+	.then((activeUserCommandResponse: CommandResponse<ActiveUser>): void => {
+		employeeId = activeUserCommandResponse.data?.employeeId;
+	});
+
+	
+	const transactionId = await (await transactionCreateCommmand.execute(employeeId, req.body.totalPrice)).data.id;
 };
 
 export const cancel = async (req: Request, res: Response) => {

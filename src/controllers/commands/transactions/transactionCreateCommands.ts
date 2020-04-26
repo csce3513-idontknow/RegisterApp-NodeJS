@@ -2,9 +2,9 @@ import { TransactionModel } from "../models/transactionModel";
 import { CommandResponse, Transaction } from "../../typeDefinitions";
 import { ResourceKey, Resources } from "../../../resourceLookup";
 
-export const execute = async (cashierId: string): Promise<CommandResponse<Transaction>> => {
+export const execute = async (cashierId: string, total: number): Promise<CommandResponse<Transaction>> => {
 	return TransactionModel.create(<TransactionModel>{
-	cashierId
+	cashierId, total
 	}).then((createdTransaction: TransactionModel): CommandResponse<Transaction> => {
 		return <CommandResponse<Transaction>>{
 			data: <Transaction>{
