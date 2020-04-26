@@ -33,7 +33,7 @@ const vueApp = new Vue({
             alert("Not enough products in stock.");
         }
          else {
-            this.cart.push({"lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity, "ppi": productClicked.price});
+            this.cart.push({"id": productClicked.id, "lookupCode": productClicked.lookupCode, "price": quantity * productClicked.price, "count": quantity, "quantityInStock": productClicked.count, "ppi": productClicked.price});
             
 
             // Stuff to update stock
@@ -71,7 +71,12 @@ const vueApp = new Vue({
         quantity = parseInt(quantity);
         if (quantity == null || quantity <= 0 || !Number.isInteger(quantity)) {
             alert("Please enter an amount greater than 0.");
-        } else {
+        } 
+        else if (quantity > productClicked.quantityInStock)
+        {
+            alert("Not enough products in stock.");
+        }
+        else {
             this.cart[productIndex].count = quantity;
             this.cart[productIndex].price = quantity * this.cart[productIndex].ppi;
         }
@@ -83,6 +88,9 @@ const vueApp = new Vue({
             // if (isSuccessResponse(response)) {
                 window.location.replace('/mainMenu');
             // }
+    },
+    confirm() {
+        
     }
   }
 })
