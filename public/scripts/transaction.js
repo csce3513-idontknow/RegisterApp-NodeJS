@@ -108,7 +108,7 @@ const vueApp = new Vue({
                 this.searchResults = callbackResponse.data
             });
             alert("Transaction completed. Close this window to return to main menu.");
-            // window.location.replace('/mainMenu');
+            window.location.replace('/mainMenu');
         } else {
             alert("Please add items to cart to complete transaction.");
         }
