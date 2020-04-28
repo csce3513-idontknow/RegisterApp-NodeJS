@@ -29,11 +29,13 @@ export enum RouteLookup {
 	ProductSearch = "/productSearch",
 	Transaction = "/transaction",
 	ProductSales = "/productSales",
+	TransactionEntry = "/transactionentry",
 	// Page routing - parameters
 	ProductSearchString = "/:productSearchString",
 	ProductIdParameter = "/:productId",
 	EmployeeIdParameter = "/:employeeId",
 	TransactionIdParameter = "/:transactionId",
+	ProductCode = "/:productCode",
 	// End page routing - parameters
 	// End page routing
 	// API routing

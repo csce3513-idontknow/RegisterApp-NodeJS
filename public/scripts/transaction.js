@@ -7,6 +7,7 @@ const vueApp = new Vue({
      cart: [],
      totalPrice: 0,
      totalItems: 0,
+     productUpdate: [],
     },
   methods: {
    search() {
@@ -94,11 +95,24 @@ const vueApp = new Vue({
             products: this.cart,
             totalPrice: this.totalPrice,
             totalItems: this.totalItems,
-        } 
+        }
 
-        ajaxPost("/api/transaction/", saveTransactionRequest, (callbackResponse) => {
-            this.searchResults = callbackResponse.data
-        }); 
+        saveTransactionEntryRequest = {
+            products: this.cart,
+            totalPrice: this.totalPrice,
+            totalItems: this.totalItems,
+        }
+
+        if (this.cart.length > 0) {
+            ajaxPost("/api/transaction/", saveTransactionRequest, (callbackResponse) => {
+                this.searchResults = callbackResponse.data
+            });
+            alert("Transaction completed. Close this window to return to main menu.");
+            // window.location.replace('/mainMenu');
+        } else {
+            alert("Please add items to cart to complete transaction.");
+        }
+        // ajaxPatch("/api/product/", productUpdate[i], (callbackResponse) => {});
     }
   }
 })
