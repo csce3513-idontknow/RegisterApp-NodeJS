@@ -1,6 +1,6 @@
 // route controller for transaction
 // Will be helping Ryan here
-import * as Helper from "./helpers/routeControllerHelper";
+import * as Helper from "./Helpers/routeControllerHelper";
 import * as EmployeeHelper from "./commands/employees/helpers/employeeHelper";
 import * as ValidateActiveUser from "./commands/activeUsers/validateActiveUserCommand";
 import { PageResponse, CommandResponse, ActiveUser, TransactionPageResponse, Product } from "./typeDefinitions";
