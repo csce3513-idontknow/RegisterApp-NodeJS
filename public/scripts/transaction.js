@@ -112,7 +112,6 @@ const vueApp = new Vue({
         } else {
             alert("Please add items to cart to complete transaction.");
         }
-        // ajaxPatch("/api/product/", productUpdate[i], (callbackResponse) => {});
     }
   }
 })

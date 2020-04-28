@@ -15,6 +15,7 @@ import { TransactionEntryModel, queryById as queryTransactionEntryById, queryByT
 import { execute as validateActiveUserCommand } from "./commands/activeUsers/validateActiveUserCommand";
 import { execute as cancelTransactionCommand } from "./commands/transactions/cancelTransactionCommand";
 import * as ProductSearch from "./commands/products/productQuery";
+import * as productDetail from "./commands/products/productUpdateCommand";
 
 
 export const saveTransaction = async (req: Request, res: Response): Promise<void> => {
@@ -30,9 +31,26 @@ export const saveTransaction = async (req: Request, res: Response): Promise<void
 	const transactionId = await (await transactionCreateCommmand.execute(employeeId, req.body.totalPrice)).data.id;
 	
 	const prods = req.body.products;
-		for (let i = 0; i < prods.length; i++) {
-			const transactionEntryId = await (await transactionEntryCommand.execute(transactionId, prods[i].id, prods[i].count, prods[i].price)).data.id;
-		}
+
+	for (let i = 0; i < prods.length; i++) {
+		const transactionEntryId = await (await transactionEntryCommand.execute(transactionId, prods[i].id, prods[i].count, prods[i].price)).data.id;
+
+		await ProductSearch.queryById(prods[i].id)
+		.then((productResponse: CommandResponse<Product>): void => {
+			prods[i].count = productResponse.data.count - prods[i].count;
+			prods[i].price = productResponse.data.price;
+		});
+
+		const newProduct = {
+			id: prods[i].id,
+			count: prods[i].count,
+			lookupCode: prods[i].lookupCode,
+			price: prods[i].price
+		};
+
+		const productUpdate = await (await productDetail.execute(newProduct));
+	}
+
 };
 
 export const cancel = async (req: Request, res: Response) => {
